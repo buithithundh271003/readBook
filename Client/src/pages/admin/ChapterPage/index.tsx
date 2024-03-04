@@ -34,7 +34,7 @@ interface DataType {
 const chapterPage = () => {
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
-    const chapters = useAppSelector((state) => state.Chapter.chapter);
+    const chapters = useAppSelector((state) => state.Chapter.chapters);
     const { register, handleSubmit } = useForm();
 
     useEffect(() => {
