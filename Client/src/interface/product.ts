@@ -3,10 +3,10 @@ interface IProduct {
     createdAt: any;
     _id?: string;
     name: string;
-    price: number;
     author: string;
     description: string;
-    quantity: number;
+    content: string;
+
     images: any[];
     categoryId?: ICategory
 }

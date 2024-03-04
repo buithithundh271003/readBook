@@ -40,7 +40,10 @@ const items: MenuItem[] = [
         getItem(<Link to={"/admin/category/add"}>Create New</Link >, '5'),
         getItem(<Link to={"/admin/category"}>View List</Link >, '6'),
     ]),
-    getItem(<Link to={"/admin/order"}>Order</Link >, '7', <TagOutlined />),
+    getItem('Chapters', 'sub3', <CodeSandboxOutlined />, [
+        getItem(<Link to={"/admin/chapter/add"}>Create New</Link >, '3'),
+        getItem(<Link to={"/admin/chapter"}>View List</Link >, '4'),
+    ]),
     getItem('Logout', '9', <LogoutOutlined />),
 ];
 

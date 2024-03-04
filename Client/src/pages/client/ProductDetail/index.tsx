@@ -5,7 +5,6 @@ import { useAppDispatch, useAppSelector } from "../../../redux/hook";
 import { getAllProduct } from "../../../redux/Reducer/ProductSlice";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import IProduct from "../../../interface/product";
-import ICart from "../../../interface/cart";
 import { message } from "antd";
 import Item from "antd/es/list/Item";
 
@@ -15,7 +14,12 @@ const productDetail = () => {
     const [user, setUser] = useState()
 
     const products = useAppSelector((state) => state.Product.products);
-    // const categories = useAppSelector((state) => state.Category.categories);
+    const chapter= useAppSelector((state)=>state.Chapter.chapters);
+    console.log("chapter", chapter);
+    console.log("chapter-pro", products);
+
+    const categories = useAppSelector((state) => state.Category.categories);
+    console.log(categories);
 
     const [quantity, setQuantity] = useState(1)
     useEffect(() => {
@@ -36,17 +40,10 @@ const productDetail = () => {
     }, [dispatch]);
 
     const { id } = useParams();
+    console.log("id parám",id);
     const product = products?.find((product: IProduct) => product._id === id);
+    console.log("productsdetail",product);
 
-    const increase = () => {
-        setQuantity(quantity + 1)
-    }
-
-    const decrease = () => {
-        if (quantity > 1) {
-            setQuantity(quantity - 1)
-        }
-    }
 
 
     // }
@@ -68,11 +65,11 @@ const productDetail = () => {
                                 </div>
                                 <div className="iq-card-body pb-0">
                                     <div className="description-contens align-items-top row">
-                                        <div className="col-md-6">
+                                        <div className="col-md-2">
                                             <div className="iq-card-transparent iq-card-block iq-card-stretch iq-card-height">
                                                 <div className="iq-card-body p-0">
                                                     <div className="row align-items-center">
-                                                        <div className="col-3">
+                                                        <div className="col-12">
                                                             <ul id="description-slider-nav" className="list-inline p-0 m-0  d-flex align-items-center">
                                                                 {product?.images.map((image) => {
                                                                     return <>
@@ -86,22 +83,7 @@ const productDetail = () => {
                                                                 })}
                                                             </ul>
                                                         </div>
-                                                        <div className="col-9">
-                                                            <ul id="description-slider" className="list-inline p-0 m-0  d-flex align-items-center">
-                                                                <ul id="description-slider-nav" className="list-inline p-0 m-0  d-flex align-items-center">
-                                                                    {product?.images.map((image) => {
-                                                                        return <>
-                                                                            <li>
-                                                                                <Link to="#">
-                                                                                    <img src={image} className="img-fluid rounded w-100" alt="" />
-                                                                                </Link>
-                                                                            </li>
-
-                                                                        </>
-                                                                    })}
-                                                                </ul>
-                                                            </ul>
-                                                        </div>
+                                                    
                                                     </div>
                                                 </div>
                                             </div>
@@ -110,10 +92,7 @@ const productDetail = () => {
                                             <div className="iq-card-transparent iq-card-block iq-card-stretch iq-card-height">
                                                 <div className="iq-card-body p-0">
                                                     <h3 className="mb-3">{product?.name}</h3>
-                                                    <div className="price d-flex align-items-center font-weight-500 mb-2">
-                                                        {/* <span className="font-size-20 pr-2 old-price">{product?.price}</span> */}
-                                                        <span className="font-size-24 text-dark">{product?.price}</span>
-                                                    </div>
+                                                   
                                                     <div className="mb-3 d-block">
                                                         <span className="font-size-20 text-warning">
                                                             <i className="fa fa-star mr-1"></i>
@@ -125,32 +104,19 @@ const productDetail = () => {
                                                     </div>
                                                     <span className="text-dark mb-4 pb-4 iq-border-bottom d-block">{product?.description}</span>
                                                     <div className="text-primary mb-4">Tác giả: <span className="text-body">{product?.author}</span></div>
-                                                    <div className="inline-flex mb-4 py-2 px-3 bg-white border border-gray-200 rounded-lg dark:border-gray-700" data-hs-input-number>
-                                                        <div className="flex items-center gap-x-1.5">
-                                                            <button onClick={() => decrease()} className="w-6 h-6 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-md border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none   dark:focus:outline-none dark:focus:ring-1 " data-hs-input-number-decrement>
-                                                                <svg className="flex-shrink-0 w-3.5 h-3.5" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14" /></svg>
-                                                            </button>
-                                                            <input className="p-0 w-6 bg-transparent border-0 text-gray-800 text-center focus:ring-0 " type="text" value={quantity} data-hs-input-number-input />
-                                                            <button onClick={() => increase()} className="w-6 h-6 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-md border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none   dark:focus:outline-none dark:focus:ring-1 " data-hs-input-number-increment>
-                                                                <svg className="flex-shrink-0 w-3.5 h-3.5" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14" /><path d="M12 5v14" /></svg>
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                                                    {user ?
+                                                
+                                                    {/* {user ?
                                                         <div className="mb-4 d-flex align-items-center">
-                                                            {/* <Link to={`/cart`} className="btn btn-primary view-more mr-2">Thêm vào giỏ hàng</Link>
-                                                        <Link to={`/cart`} className="btn btn-primary view-more mr-2" onSubmit={addCart}>Mua ngay</Link> */}
-                                                            <button className="btn btn-primary view-more mr-2" onClick={() => addToCart(cart)}>Thêm vào giỏ hàng</button>
-                                                            <button className="btn btn-primary view-more mr-2" onClick={() => addCart(cart)}>Mua ngay</button>
+                                                         
+                                                            <button className="btn btn-primary view-more mr-2" onClick={() => navigate(`/viewBook/${product?._id}`)}>Mua ngay</button>
                                                         </div>
                                                         :
                                                         <div className="mb-4 d-flex align-items-center">
-                                                            {/* <Link to={`/cart`} className="btn btn-primary view-more mr-2">Thêm vào giỏ hàng</Link>
-                                                        <Link to={`/cart`} className="btn btn-primary view-more mr-2" onSubmit={addCart}>Mua ngay</Link> */}
+                                                           
                                                             <button className="btn btn-primary view-more mr-2" onClick={() => navigate(`/signin`)}>Thêm vào giỏ hàng</button>
                                                             <button className="btn btn-primary view-more mr-2" onClick={() => navigate(`/signin`)}>Mua ngay</button>
                                                         </div>
-                                                    }
+                                                    } */}
                                                     <div className="mb-3">
                                                         <Link to="#" className="text-body text-center"><span className="avatar-30 rounded-circle bg-primary d-inline-block mr-2"><i className="ri-heart-fill"></i></span><span>Thêm vào danh sách yêu thích</span></Link>
                                                     </div>
@@ -171,6 +137,18 @@ const productDetail = () => {
                                                             </li>
                                                         </ul>
                                                     </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="col-md-4">
+                                            <div className="iq-card-transparent iq-card-block iq-card-stretch iq-card-height ml-3">
+                                                <div className="iq-card-body p-0">
+                                                    <h3 className="mb-3 ">Danh sách các chương </h3>
+
+                                                   
+                                                   
+                                                
+                                                   
                                                 </div>
                                             </div>
                                         </div>

@@ -8,6 +8,7 @@ import { getAllProduct } from "../../../redux/Reducer/ProductSlice.ts";
 const homePage = () => {
     const dispatch = useAppDispatch();
     const products = useAppSelector((state) => state.Product.products);
+    console.log(products);
 
     useEffect(() => {
         // setIsLoading(true);
@@ -62,13 +63,8 @@ const homePage = () => {
                                                                             </span>
                                                                         </div>
                                                                     </div>
-                                                                    <div className="price d-flex align-items-center">
-                                                                        <h6><b>{product.price} đ</b></h6>
-                                                                    </div>
-                                                                    <div className="iq-product-action">
-                                                                        <Link to="#"><i className="ri-shopping-cart-2-fill text-primary"></i></Link>
-                                                                        <Link to="#" className="ml-2"><i className="ri-heart-fill text-danger"></i></Link>
-                                                                    </div>
+                                                                
+                                                                    
                                                                 </div>
                                                             </div >
                                                         </div>

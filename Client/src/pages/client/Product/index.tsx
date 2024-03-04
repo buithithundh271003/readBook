@@ -131,10 +131,7 @@ const Product = () => {
                                                                             </span>
                                                                         </div>
                                                                     </div>
-                                                                    <div className="price d-flex align-items-center">
-                                                                        {/* <span className="pr-1 old-price">$99</span> */}
-                                                                        <h6><b>{item.price}</b></h6>
-                                                                    </div>
+                                                                
                                                                     <div className="iq-product-action">
                                                                         <a href=""><i className="ri-shopping-cart-2-fill text-primary"></i></a>
                                                                         <a href="" className="ml-2"><i className="ri-heart-fill text-danger"></i></a>

@@ -6,7 +6,7 @@ const productSchema = new Schema(
         name: { type: String, trim: true, required: true },
         author: { type: String, trim: true, required: true },
         description: { type: String, trim: true, required: true },
-        buyCounts: { type: Number, required: false, default: 0 },
+        content: { type: String, trim: true, required: true },
         categoryId: {
             type: mongoose.Schema.Types.ObjectId,
             ref: "Category",

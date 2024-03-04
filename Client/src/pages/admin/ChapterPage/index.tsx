@@ -16,28 +16,30 @@ import {
 import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from '../../../redux/hook';
-import { getAllProduct, removeProduct } from '../../../redux/Reducer/ProductSlice';
-import ICategory from '../../../interface/category';
+import { getAllChapter,removeChapter } from '../../../redux/Reducer/Chapter';
+import IProduct from '../../../interface/product';
+
 import { useForm } from 'react-hook-form';
 import { ColumnsType } from 'antd/es/table';
 
 interface DataType {
     _id: string,
     name: string,
-    images: any[],
+    title:string,
+    content:string
     
-    categoryId: string,
+    productId: string,
 }
 
-const productPage = () => {
+const chapterPage = () => {
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
-    const products = useAppSelector((state) => state.Product.products);
+    const chapters = useAppSelector((state) => state.Chapter.chapter);
     const { register, handleSubmit } = useForm();
 
     useEffect(() => {
         setIsLoading(true);
-        void dispatch(getAllProduct()).then(() => {
+        void dispatch(getAllChapter()).then(() => {
             setIsLoading(false);
         }).catch((error) => {
             setIsLoading(false);
@@ -59,7 +61,7 @@ const productPage = () => {
         navigate(`?${queryString}`);
         setIsLoading(true);
         console.log("queryString",queryString)
-        void dispatch(getAllProduct(queryString)).then(() => {
+        void dispatch(getAllChapter(queryString)).then(() => {
             setIsLoading(false);
         }).catch((error) => {
             setIsLoading(false);
@@ -68,7 +70,7 @@ const productPage = () => {
     };
 
     const confirm = async (id: string) => {
-        await dispatch(removeProduct(id));
+        await dispatch(removeChapter(id));
         messageApi.open({
             type: 'success',
             content: 'Delete category successfully!',
@@ -81,33 +83,32 @@ const productPage = () => {
             key: 'name',
             render: (record: any) => (
                 <div className="flex items-center  ">
-                    <Image
-                        width={70}
-                        src={record.images[0]}
-                        alt="Product Image"
-                        className=""
-                    />
+                  
                     <a className='w-full overflow-hidden'>{record.name}</a>
                 </div>
             ),
-            sorter: (a: any, b: any) => a.name.localeCompare(b.name), // Sắp xếp theo bảng chữ cái
-            sortDirections: ['ascend', 'descend'],
-            showSorterTooltip: false,
-            className: 'w-1/4',
+            // sortDirections: ['ascend', 'descend'],
+            // showSorterTooltip: false,
+            // className: 'w-1/4',
         },
      
       
         {
-            title: 'Description',
-            dataIndex: 'description',
-            key: 'description',
+            title: 'title',
+            key: 'title',
+            render: (record: any) => (
+                <div className="flex items-center  ">
+                  
+                    <a className='w-full overflow-hidden'>{record.title}</a>
+                </div>
+            ),
         },
     
         {
-            title: "Category",
-            key: "category",
-            dataIndex: "categoryId",
-            render: (cate: ICategory) => <span>{cate?.name}</span>,
+            title: "productId",
+            key: "productId",
+            dataIndex: "productId",
+            render: (cate: IProduct) => <span>{cate?.name}</span>,
         },
         {
             title: 'Action',
@@ -133,11 +134,13 @@ const productPage = () => {
 
     ];
 
-    const data: DataType[] = products.map((product: any) => ({
-        _id: product._id,
-        name: product.name,
-        images: product.images,
-        categoryId: product.categoryId,
+    const data: DataType[] = chapters.map((chapter: any) => ({
+        _id: chapter._id,
+        name: chapter.name,
+        title: chapter.title,
+        content: chapter.content,
+
+        productId: chapter.productId,
     }));
     const [isLoading, setIsLoading] = useState(false);
     return (
@@ -191,4 +194,4 @@ const productPage = () => {
         </div>
     )
 }
-export default productPage;
+export default chapterPage;

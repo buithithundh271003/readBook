@@ -30,6 +30,7 @@ export const getAllProduct = createAsyncThunk(
 export const createProduct = createAsyncThunk(
     "products/addProducts",
     async (product: IProduct) => {
+        console.log("product",product);
         const { data } = await axios.post<{ product: IProduct }>(
             "http://localhost:8080/api/products",
             product
