@@ -1,13 +1,46 @@
-import { useEffect } from "react";
+import { useEffect,useState } from "react";
+import React from "react";
 import Footer from "../../../compoment/footer"
 import Header from "../../../compoment/header"
 import { useAppDispatch, useAppSelector } from "../../../redux/hook";
 import { getAllProduct } from "../../../redux/Reducer/ProductSlice";
 import { Link } from "react-router-dom";
+import {useForm} from"react-hook-form";
+import { useNavigate } from "react-router-dom";
 
 const Product = () => {
     const dispatch = useAppDispatch();
+    const [isLoading, setIsLoading] = useState(false);
+
+    const navigate= useNavigate();
     const products = useAppSelector((state) => state.Product.products);
+
+    const urlParams = new URLSearchParams(location.search);
+    console.log("urlParams", urlParams);
+     const {handleSubmit,register}= useForm();
+    const Search=(e:any)=>{
+        const searchText = e._searchText;
+
+        urlParams.set("_searchText", encodeURIComponent(searchText));
+        console.log("searchText:", searchText);
+
+        const queryString = `${urlParams.toString() ? `?${urlParams.toString()}` : ""}`;
+
+        navigate(`?${queryString}`);
+        console.log("queryString",queryString);
+        navigate(`?${queryString}`);
+        setIsLoading(true);
+        console.log("queryString",queryString)
+        void dispatch(getAllProduct(queryString)).then(() => {
+            setIsLoading(false);
+        }).catch((error) => {
+            setIsLoading(false);
+            console.log(error);
+        });
+    
+
+    }
+
 
     useEffect(() => {
         // setIsLoading(true);
@@ -30,20 +63,7 @@ const Product = () => {
                                     <h2 className="mb-3">Search by Book Name</h2>
                                     <div className="w-100 iq-search-filter">
                                         <ul className="list-inline p-0 m-0 row justify-content-center search-menu-options">
-                                            <li className="search-menu-opt">
-                                                <div className="iq-dropdown">
-                                                    <div className="form-group mb-0">
-                                                        <select className="form-control form-search-control bg-white border-0" id="exampleFormControlSelect1">
-                                                            <option selected="">All</option>
-                                                            <option>A Books</option>
-                                                            <option>the Sun</option>
-                                                            <option>Harsh book</option>
-                                                            <option>People book</option>
-                                                            <option>the Fog</option>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                            </li>
+                                        
                                             <li className="search-menu-opt">
                                                 <div className="iq-dropdown">
                                                     <div className="form-group mb-0">
@@ -59,21 +79,7 @@ const Product = () => {
                                                     </div>
                                                 </div>
                                             </li>
-                                            <li className="search-menu-opt">
-                                                <div className="iq-dropdown">
-                                                    <div className="form-group mb-0">
-                                                        <select className="form-control form-search-control bg-white border-0" id="exampleFormControlSelect3">
-                                                            <option selected="">Year</option>
-                                                            <option>2015</option>
-                                                            <option>2016</option>
-                                                            <option>2017</option>
-                                                            <option>2018</option>
-                                                            <option>2019</option>
-                                                            <option>2020</option>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                            </li>
+                                            
                                             <li className="search-menu-opt">
                                                 <div className="iq-dropdown">
                                                     <div className="form-group mb-0">
@@ -91,8 +97,9 @@ const Product = () => {
                                             </li>
                                             <li className="search-menu-opt">
                                                 <div className="iq-search-bar search-book d-flex align-items-center">
-                                                    <form action="#" className="searchbox">
-                                                        <input type="text" className="text search-input" placeholder="search here..." />
+                                                    <form action="#" className="searchbox" onSubmit={handleSubmit(Search)}>
+                            
+                                                        <input type="text" className="text search-input" placeholder="search here..." {...register("_searchText")} />
                                                         <a className="search-link" href="#"><i className="ri-search-line"></i></a>
                                                     </form>
                                                     <button className="btn btn-primary search-data ml-2">Search</button>

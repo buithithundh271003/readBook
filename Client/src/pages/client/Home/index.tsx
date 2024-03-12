@@ -4,20 +4,30 @@ import { Link } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../../redux/hook.ts";
 import { useEffect } from "react";
 import { getAllProduct } from "../../../redux/Reducer/ProductSlice.ts";
+import { getAllChapter } from "../../../redux/Reducer/Chapter.ts";
+
 
 const homePage = () => {
     const dispatch = useAppDispatch();
     const products = useAppSelector((state) => state.Product.products);
     console.log(products);
+  
+    
+    const categories = useAppSelector((state) => state.Category.categories);
+
+    console.log(categories);
 
     useEffect(() => {
         // setIsLoading(true);
         dispatch(getAllProduct())
+        dispatch(getAllChapter())
     }, [dispatch]);
 
     useEffect(() => {
         // setIsLoading(true);
         dispatch(getAllProduct())
+        dispatch(getAllChapter())
+
     }, []);
     return <>
         <div className="wrapper">

@@ -46,9 +46,10 @@ export const getProducts = async (req, res) => {
             _sort = "createdAt",
             _order = "desc",
             _searchText,
-            _minPrice,
-            _maxPrice
+            
         } = req.query;
+        console.log("Aaaaaaaaaaaaa", _searchText);
+        console.log("Aaaaaaaaaaaaathu", req.query);
 
         let query = {};
         if (_searchText) {
@@ -58,10 +59,9 @@ export const getProducts = async (req, res) => {
                 $diacriticSensitive: false,
             }
         }
-        if (_minPrice !== undefined && _maxPrice !== undefined) {
-            query.price = { $gte: _minPrice, $lte: _maxPrice }
-        }
-        if (Object.keys(query).length && _searchText && _minPrice && _maxPrice) {
+     
+      
+        if (Object.keys(query).length && _searchText ) {
             query = {
                 $and: [
                     {
@@ -71,9 +71,7 @@ export const getProducts = async (req, res) => {
                             $diacriticSensitive: false,
                         },
                     },
-                    {
-                        price: { $gte: _minPrice, $lte: _maxPrice },
-                    }
+                   
                 ]
             }
         }
@@ -94,7 +92,6 @@ export const getProducts = async (req, res) => {
             ...options,
             populate: [{ path: "categoryId", select: "name" }]
         });
-
         if (products.length === 0) {
             return res.status(404).json({
                 message: "There are no product in the list.",

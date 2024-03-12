@@ -35,6 +35,10 @@ const chapterPage = () => {
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
     const chapters = useAppSelector((state) => state.Chapter.chapters);
+    console.log("Aa",chapters);
+    const chapter= useAppSelector((state)=>state.Chapter.chapters);
+    console.log("chapter", chapter);
+
     const { register, handleSubmit } = useForm();
 
     useEffect(() => {

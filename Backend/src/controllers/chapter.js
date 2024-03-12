@@ -37,13 +37,23 @@ export const addChapter = async (req, res) => {
 };
 export const getChapters= async(req,res)=>{
     try{
+        console.log("get",req.query);
         const {
             _page = 1,
             _limit = 100,
             _searchText,
 
         } = req.query;
+        console.log("get",_searchText);
         let query = {};
+
+        if (_searchText) {
+            query = { name: { $regex: new RegExp(_searchText, 'i') } }; // Case-insensitive search
+          }
+        console.log("que",query);
+        const c=await Chapter.find(query);
+        console.log("chapter nè",c.length);
+
         if (_searchText) {
             query.$text = {
                 $search: _searchText,
@@ -104,6 +114,8 @@ export const deleteChapter = async (req, res) => {
     const { id } = req.params;
     try {
         const chapter = await Chapter.findById(id);
+        
+
         if (!chapter) {
             return res.status(404).json({
                 message: "chapter not found!",

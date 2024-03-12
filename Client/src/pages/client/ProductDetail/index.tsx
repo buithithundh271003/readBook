@@ -3,10 +3,16 @@ import Footer from "../../../compoment/footer";
 import Header from "../../../compoment/header";
 import { useAppDispatch, useAppSelector } from "../../../redux/hook";
 import { getAllProduct } from "../../../redux/Reducer/ProductSlice";
+import { getAllChapter} from "../../../redux/Reducer/Chapter";
+
 import { Link, useNavigate, useParams } from "react-router-dom";
 import IProduct from "../../../interface/product";
-import { message } from "antd";
+import IChapter from "../../../interface/chapter";
 import Item from "antd/es/list/Item";
+import "./index.scss";
+
+
+
 
 const productDetail = () => {
     const dispatch = useAppDispatch();
@@ -19,12 +25,16 @@ const productDetail = () => {
     console.log("chapter-pro", products);
 
     const categories = useAppSelector((state) => state.Category.categories);
+
     console.log(categories);
+
 
     const [quantity, setQuantity] = useState(1)
     useEffect(() => {
         // setIsLoading(true);
         dispatch(getAllProduct())
+        dispatch(getAllChapter())
+
         const userStore = JSON.parse(localStorage.getItem("user")!)
         if (userStore) {
             setUser(userStore)
@@ -33,6 +43,8 @@ const productDetail = () => {
     useEffect(() => {
         // setIsLoading(true);
         dispatch(getAllProduct())
+        dispatch(getAllChapter())
+
         const userStore = JSON.parse(localStorage.getItem("user")!)
         if (userStore) {
             setUser(userStore)
@@ -41,8 +53,14 @@ const productDetail = () => {
 
     const { id } = useParams();
     console.log("id parám",id);
+
     const product = products?.find((product: IProduct) => product._id === id);
+    const getChapterProduct= chapter?.filter((chap: IChapter) => chap.productId?._id === id);
+
+    
+    console.log("getchapterPro",getChapterProduct);
     console.log("productsdetail",product);
+
 
 
 
@@ -102,21 +120,10 @@ const productDetail = () => {
                                                             <i className="fa fa-star"></i>
                                                         </span>
                                                     </div>
-                                                    <span className="text-dark mb-4 pb-4 iq-border-bottom d-block">{product?.description}</span>
+                                                    <pre className="text-dark mb-4 pb-4 iq-border-bottom d-block">{product?.description}</pre>
                                                     <div className="text-primary mb-4">Tác giả: <span className="text-body">{product?.author}</span></div>
                                                 
-                                                    {/* {user ?
-                                                        <div className="mb-4 d-flex align-items-center">
-                                                         
-                                                            <button className="btn btn-primary view-more mr-2" onClick={() => navigate(`/viewBook/${product?._id}`)}>Mua ngay</button>
-                                                        </div>
-                                                        :
-                                                        <div className="mb-4 d-flex align-items-center">
-                                                           
-                                                            <button className="btn btn-primary view-more mr-2" onClick={() => navigate(`/signin`)}>Thêm vào giỏ hàng</button>
-                                                            <button className="btn btn-primary view-more mr-2" onClick={() => navigate(`/signin`)}>Mua ngay</button>
-                                                        </div>
-                                                    } */}
+                                                   
                                                     <div className="mb-3">
                                                         <Link to="#" className="text-body text-center"><span className="avatar-30 rounded-circle bg-primary d-inline-block mr-2"><i className="ri-heart-fill"></i></span><span>Thêm vào danh sách yêu thích</span></Link>
                                                     </div>
@@ -140,15 +147,38 @@ const productDetail = () => {
                                                 </div>
                                             </div>
                                         </div>
-                                        <div className="col-md-4">
-                                            <div className="iq-card-transparent iq-card-block iq-card-stretch iq-card-height ml-3">
+                                        <div className="col-md-4 bg-light">
+                                            <div className="iq-card iq-card-block iq-card-stretch iq-card-bold iq-card-height " style={{border:"1px soild black"}}>
                                                 <div className="iq-card-body p-0">
                                                     <h3 className="mb-3 ">Danh sách các chương </h3>
+                                                     {getChapterProduct?.map(item=>{
+                                                        return <>
+                                                            {user?
+                                                                 <div className="view-book">
+                                                                 <Link to={`/viewBook/${item._id}`} className="btn btn-sm btn-white">{item.name}: {item.title}</Link>
+                                                                 </div>
+                                                                 :
+                                                                 <div className="view-book">
+                                                                 <Link to={`/signin`} className="btn btn-sm btn-white">{item.name}: {item.title}</Link>
+                                                                 </div>
 
+                                                            }
+                                                            
+                                                        </>
+                                                     })}
                                                    
-                                                   
-                                                
-                                                   
+                                                  {/* {user ?
+                                                           
+                                                         
+                                                            <button className="btn btn-primary view-more mr-2" onClick={() => navigate(`/viewBook/${}`)}>Mua ngay</button>
+                                                        
+                                                        :
+                                                        <div className="mb-4 d-flex align-items-center">
+                                                           
+                                                            <button className="btn btn-primary view-more mr-2" onClick={() => navigate(`/signin`)}>Mua ngay</button>
+                                                        </div>
+                                                    }  */}
+                                           
                                                 </div>
                                             </div>
                                         </div>
@@ -338,134 +368,9 @@ const productDetail = () => {
                                                 </div>
                                             </div>
                                         </li>
-                                        <li className="col-md-3">
-                                            <div className="d-flex align-items-center">
-                                                <div className="col-5 p-0 position-relative image-overlap-shadow">
-                                                    <Link to="#"><img className="img-fluid rounded w-100" src="images/trendy-books/03.jpg" alt="" /></Link>
-                                                    <div className="view-book">
-                                                        <Link to="book-page.html" className="btn btn-sm btn-white">Xem sách</Link>
-                                                    </div>
-                                                </div>
-                                                <div className="col-7">
-                                                    <div className="mb-2">
-                                                        <h6 className="mb-1">Phân Tích Thị Trường...</h6>
-                                                        <p className="font-size-13 line-height mb-1">Monty Carlo</p>
-                                                        <div className="d-block">
-                                                            <span className="font-size-13 text-warning">
-                                                                <i className="fa fa-star"></i>
-                                                                <i className="fa fa-star"></i>
-                                                                <i className="fa fa-star"></i>
-                                                                <i className="fa fa-star"></i>
-                                                                <i className="fa fa-star"></i>
-                                                            </span>
-                                                        </div>
-                                                    </div>
-                                                    <div className="price d-flex align-items-center">
-                                                        <h6><b>105.900 ₫</b></h6>
-                                                    </div>
-                                                    <div className="iq-product-action">
-                                                        <Link to="#"><i className="ri-shopping-cart-2-fill text-primary"></i></Link>
-                                                        <Link to="#" className="ml-2"><i className="ri-heart-fill text-danger"></i></Link>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </li>
-                                        <li className="col-md-3">
-                                            <div className="d-flex align-items-center">
-                                                <div className="col-5 p-0 position-relative image-overlap-shadow">
-                                                    <Link to="#"><img className="img-fluid rounded w-100" src="images/trendy-books/04.jpg" alt="" /></Link>
-                                                    <div className="view-book">
-                                                        <Link to="book-page.html" className="btn btn-sm btn-white">Xem sách</Link>
-                                                    </div>
-                                                </div>
-                                                <div className="col-7">
-                                                    <div className="mb-2">
-                                                        <h6 className="mb-1">Siêu Cò – How To Be A Power...</h6>
-                                                        <p className="font-size-13 line-height mb-1">Smith goal</p>
-                                                        <div className="d-block">
-                                                            <span className="font-size-13 text-warning">
-                                                                <i className="fa fa-star"></i>
-                                                                <i className="fa fa-star"></i>
-                                                                <i className="fa fa-star"></i>
-                                                                <i className="fa fa-star"></i>
-                                                                <i className="fa fa-star"></i>
-                                                            </span>
-                                                        </div>
-                                                    </div>
-                                                    <div className="price d-flex align-items-center">
-                                                        <h6><b>249.000 ₫</b></h6>
-                                                    </div>
-                                                    <div className="iq-product-action">
-                                                        <Link to="#"><i className="ri-shopping-cart-2-fill text-primary"></i></Link>
-                                                        <Link to="#" className="ml-2"><i className="ri-heart-fill text-danger"></i></Link>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </li>
-                                        <li className="col-md-3">
-                                            <div className="d-flex align-items-center">
-                                                <div className="col-5 p-0 position-relative image-overlap-shadow">
-                                                    <Link to="#"><img className="img-fluid rounded w-100" src="images/trendy-books/05.jpg" alt="" /></Link>
-                                                    <div className="view-book">
-                                                        <Link to="book-page.html" className="btn btn-sm btn-white">Xem sách</Link>
-                                                    </div>
-                                                </div>
-                                                <div className="col-7">
-                                                    <div className="mb-2">
-                                                        <h6 className="mb-1">7 Thói Quen Của Bạn Trẻ... </h6>
-                                                        <p className="font-size-13 line-height mb-1">Paige Turner</p>
-                                                        <div className="d-block">
-                                                            <span className="font-size-13 text-warning">
-                                                                <i className="fa fa-star"></i>
-                                                                <i className="fa fa-star"></i>
-                                                                <i className="fa fa-star"></i>
-                                                                <i className="fa fa-star"></i>
-                                                                <i className="fa fa-star"></i>
-                                                            </span>
-                                                        </div>
-                                                    </div>
-                                                    <div className="price d-flex align-items-center">
-                                                        <h6><b>95.900 ₫</b></h6>
-                                                    </div>
-                                                    <div className="iq-product-action">
-                                                        <Link to="#"><i className="ri-shopping-cart-2-fill text-primary"></i></Link>
-                                                        <Link to="#" className="ml-2"><i className="ri-heart-fill text-danger"></i></Link>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </li>
-                                        <li className="col-md-3">
-                                            <div className="d-flex align-items-center">
-                                                <div className="col-5 p-0 position-relative image-overlap-shadow">
-                                                    <Link to="#"><img className="img-fluid rounded w-100" src="images/trendy-books/06.jpg" alt="" /></Link>
-                                                    <div className="view-book">
-                                                        <Link to="book-page.html" className="btn btn-sm btn-white">Xem sách</Link>
-                                                    </div>
-                                                </div>
-                                                <div className="col-7">
-                                                    <div className="mb-2">
-                                                        <h6 className="mb-1">Jeff Bezos Và Kỷ ..</h6>
-                                                        <p className="font-size-13 line-height mb-1">Barb Ackue</p>
-                                                        <div className="d-block">
-                                                            <span className="font-size-13 text-warning">
-                                                                <i className="fa fa-star"></i>
-                                                                <i className="fa fa-star"></i>
-                                                                <i className="fa fa-star"></i>
-                                                                <i className="fa fa-star"></i>
-                                                                <i className="fa fa-star"></i>
-                                                            </span>
-                                                        </div>
-                                                    </div>
-                                                    <div className="price d-flex align-items-center">
-                                                        <h6><b>76.800 ₫</b></h6>
-                                                    </div>
-                                                    <div className="iq-product-action">
-                                                        <Link to="#"><i className="ri-shopping-cart-2-fill text-primary"></i></Link>
-                                                        <Link to="#" className="ml-2"><i className="ri-heart-fill text-danger"></i></Link>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </li>
+                                       
+                                      
+                                      
                                     </ul>
                                 </div>
                             </div>
@@ -505,75 +410,7 @@ const productDetail = () => {
                                                 </div>
                                             </div>
                                         </li>
-                                        <li className="col-md-4">
-                                            <div className="d-flex align-items-center">
-                                                <div className="col-5 p-0 position-relative">
-                                                    <Link to="#">
-                                                        <img src="images/favorite/02.jpg" className="img-fluid rounded w-100" alt="" />
-                                                    </Link>
-                                                </div>
-                                                <div className="col-7">
-                                                    <h5 className="mb-2">Một Đời Quản Trị</h5>
-                                                    <p className="mb-2">Tác giả : Michael klock</p>
-                                                    <div className="d-flex justify-content-between align-items-center text-dark font-size-13">
-                                                        <span>Đã bán</span>
-                                                        <span className="mr-4">45</span>
-                                                    </div>
-                                                    <div className="iq-progress-bar-linear d-inline-block w-100">
-                                                        <div className="iq-progress-bar iq-bg-danger">
-                                                            <span className="bg-danger" data-percent="45"></span>
-                                                        </div>
-                                                    </div>
-                                                    <Link to="#" className="text-dark">Đọc ngay<i className="ri-arrow-right-s-line"></i></Link>
-                                                </div>
-                                            </div>
-                                        </li>
-                                        <li className="col-md-4">
-                                            <div className="d-flex align-items-center">
-                                                <div className="col-5 p-0 position-relative">
-                                                    <Link to="#">
-                                                        <img src="images/favorite/03.jpg" className="img-fluid rounded w-100" alt="" />
-                                                    </Link>
-                                                </div>
-                                                <div className="col-7">
-                                                    <h5 className="mb-2">Người Bán Hàng Vĩ Đại Nhất Thế Giới</h5>
-                                                    <p className="mb-2">Tác giả : Daniel Ace</p>
-                                                    <div className="d-flex justify-content-between align-items-center text-dark font-size-13">
-                                                        <span>Đã bán</span>
-                                                        <span className="mr-4">78</span>
-                                                    </div>
-                                                    <div className="iq-progress-bar-linear d-inline-block w-100">
-                                                        <div className="iq-progress-bar iq-bg-info">
-                                                            <span className="bg-info" data-percent="78"></span>
-                                                        </div>
-                                                    </div>
-                                                    <Link to="#" className="text-dark">Đọc ngay<i className="ri-arrow-right-s-line"></i></Link>
-                                                </div>
-                                            </div>
-                                        </li>
-                                        <li className="col-md-4">
-                                            <div className="d-flex align-items-center">
-                                                <div className="col-5 p-0 position-relative">
-                                                    <Link to="#">
-                                                        <img src="images/favorite/04.jpg" className="img-fluid rounded w-100" alt="" />
-                                                    </Link>
-                                                </div>
-                                                <div className="col-7">
-                                                    <h5 className="mb-2">Economix- Các Nền Kinh Tế Vận Hành</h5>
-                                                    <p className="mb-2">Tác giả : Luka Afton</p>
-                                                    <div className="d-flex justify-content-between align-items-center text-dark font-size-13">
-                                                        <span>Đã bán</span>
-                                                        <span className="mr-4">90</span>
-                                                    </div>
-                                                    <div className="iq-progress-bar-linear d-inline-block w-100">
-                                                        <div className="iq-progress-bar iq-bg-success">
-                                                            <span className="bg-success" data-percent="90"></span>
-                                                        </div>
-                                                    </div>
-                                                    <Link to="#" className="text-dark">Đọc ngay<i className="ri-arrow-right-s-line"></i></Link>
-                                                </div>
-                                            </div>
-                                        </li>
+                                    
                                     </ul>
                                 </div>
                             </div>

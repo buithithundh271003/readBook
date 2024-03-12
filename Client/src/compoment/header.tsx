@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import React from "react";
 import { useAppDispatch, useAppSelector } from "../redux/hook";
 import { getAllCategory } from "../redux/Reducer/CategorySlice";
 import { Link, useNavigate } from "react-router-dom";
@@ -9,14 +10,13 @@ import { message } from "antd";
 const Header = () => {
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
+    const [input, setInput] = React.useState("");
+    console.log("SetInput",setInput);
     const categories = useAppSelector((state) => state.Category.categories);
 
     const user = JSON.parse(localStorage.getItem("user")!)
-
-    const products = useAppSelector((state) => state.Product.products);
    
-
-   
+    
 
     const logout = () => {
         localStorage.removeItem("myCat");
@@ -26,6 +26,7 @@ const Header = () => {
     }
 
     useEffect(() => {
+
         // setIsLoading(true);
         dispatch(getAllCategory())
         if (user) {
@@ -81,7 +82,6 @@ const Header = () => {
                 <nav className="navbar navbar-expand-lg navbar-light p-0">
                     <div className="iq-menu-bt d-flex align-items-center">
                         <div className="wrapper-menu">
-                            <div className="main-circle"><i className="las la-bars"></i></div>
                         </div>
                         <div className="iq-navbar-logo d-flex justify-content-between">
                             <a href="index.html" className="header-logo">
@@ -97,7 +97,7 @@ const Header = () => {
                     </div>
                     <div className="iq-search-bar">
                         <form action="#" className="searchbox">
-                            <input type="text" className="text search-input" placeholder="Tìm kiếm sản phẩm..." />
+                            <input type="text" className="text search-input" placeholder="Tìm kiếm sản phẩm..." onChange={(e)=>handelOnchange(e.target.value) }/>
                             <a className="search-link" href="#"><i className="ri-search-line"></i></a>
                         </form>
                     </div>
@@ -115,139 +115,7 @@ const Header = () => {
                                     <a className="search-link" href="#"><i className="ri-search-line"></i></a>
                                 </form>
                             </li>
-                            <li className="nav-item nav-icon">
-                                <a href="#" className="search-toggle iq-waves-effect text-gray rounded">
-                                    <i className="ri-notification-2-line"></i>
-                                    <span className="bg-primary dots"></span>
-                                </a>
-                                <div className="iq-sub-dropdown">
-                                    <div className="iq-card shadow-none m-0">
-                                        <div className="iq-card-body p-0">
-                                            <div className="bg-primary p-3">
-                                                <h5 className="mb-0 text-white">Thông Báo<small className="badge  badge-light float-right pt-1">4</small></h5>
-                                            </div>
-                                            <a href="#" className="iq-sub-card" >
-                                                <div className="media align-items-center">
-                                                    <div className="">
-                                                        <img className="avatar-40 rounded" src="src/style/images/user/1.jpg" alt="" />
-                                                    </div>
-                                                    <div className="media-body ml-3">
-                                                        <h6 className="mb-0 ">Đơn hàng giao thành công</h6>
-                                                        <small className="float-right font-size-12">Just Now</small>
-                                                        <p className="mb-0">95.000đ</p>
-                                                    </div>
-                                                </div>
-                                            </a>
-                                            <a href="#" className="iq-sub-card" >
-                                                <div className="media align-items-center">
-                                                    <div className="">
-                                                        <img className="avatar-40 rounded" src="src/style/images/user/02.jpg" alt="" />
-                                                    </div>
-                                                    <div className="media-body ml-3">
-                                                        <h6 className="mb-0 ">Đơn hàng giao thành công</h6>
-                                                        <small className="float-right font-size-12">5 days ago</small>
-                                                        <p className="mb-0">255.000đ</p>
-                                                    </div>
-                                                </div>
-                                            </a>
-                                            <a href="#" className="iq-sub-card" >
-                                                <div className="media align-items-center">
-                                                    <div className="">
-                                                        <img className="avatar-40 rounded" src="src/style/images/user/03.jpg" alt="" />
-                                                    </div>
-                                                    <div className="media-body ml-3">
-                                                        <h6 className="mb-0 ">Đơn hàng giao thành công</h6>
-                                                        <small className="float-right font-size-12">2 days ago</small>
-                                                        <p className="mb-0">79.000đ</p>
-                                                    </div>
-                                                </div>
-                                            </a>
-                                            <a href="#" className="iq-sub-card" >
-                                                <div className="media align-items-center">
-                                                    <div className="">
-                                                        <img className="avatar-40 rounded" src="src/style/images/user/04.jpg" alt="" />
-                                                    </div>
-                                                    <div className="media-body ml-3">
-                                                        <h6 className="mb-0 ">Đơn hàng #7979 giao không thành công</h6>
-                                                        <small className="float-right font-size-12">3 days ago</small>
-                                                        <p className="mb-0">100.000đ</p>
-                                                    </div>
-                                                </div>
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </li>
-                            <li className="nav-item nav-icon dropdown">
-                                <a href="#" className="search-toggle iq-waves-effect text-gray rounded">
-                                    <i className="ri-mail-line"></i>
-                                    <span className="bg-primary dots"></span>
-                                </a>
-                                <div className="iq-sub-dropdown">
-                                    <div className="iq-card shadow-none m-0">
-                                        <div className="iq-card-body p-0 ">
-                                            <div className="bg-primary p-3">
-                                                <h5 className="mb-0 text-white">Tin Nhắn<small className="badge  badge-light float-right pt-1">5</small></h5>
-                                            </div>
-                                            <a href="#" className="iq-sub-card">
-                                                <div className="media align-items-center">
-                                                    <div className="">
-                                                        <img className="avatar-40 rounded" src="src/style/images/user/01.jpg" alt="" />
-                                                    </div>
-                                                    <div className="media-body ml-3">
-                                                        <h6 className="mb-0 ">QT Shop</h6>
-                                                        <small className="float-left font-size-12">13 Jun</small>
-                                                    </div>
-                                                </div>
-                                            </a>
-                                            <a href="#" className="iq-sub-card">
-                                                <div className="media align-items-center">
-                                                    <div className="">
-                                                        <img className="avatar-40 rounded" src="src/style/images/user/02.jpg" alt="" />
-                                                    </div>
-                                                    <div className="media-body ml-3">
-                                                        <h6 className="mb-0 ">Tran Thuan Store</h6>
-                                                        <small className="float-left font-size-12">20 Apr</small>
-                                                    </div>
-                                                </div>
-                                            </a>
-                                            <a href="#" className="iq-sub-card">
-                                                <div className="media align-items-center">
-                                                    <div className="">
-                                                        <img className="avatar-40 rounded" src="src/style/images/user/03.jpg" alt="" />
-                                                    </div>
-                                                    <div className="media-body ml-3">
-                                                        <h6 className="mb-0 ">Hoang Vu Book</h6>
-                                                        <small className="float-left font-size-12">30 Jun</small>
-                                                    </div>
-                                                </div>
-                                            </a>
-                                            <a href="#" className="iq-sub-card">
-                                                <div className="media align-items-center">
-                                                    <div className="">
-                                                        <img className="avatar-40 rounded" src="src/style/images/user/04.jpg" alt="" />
-                                                    </div>
-                                                    <div className="media-body ml-3">
-                                                        <h6 className="mb-0 ">Quang Minh Book</h6>
-                                                        <small className="float-left font-size-12">12 Sep</small>
-                                                    </div>
-                                                </div>
-                                            </a>
-                                            <a href="#" className="iq-sub-card">
-                                                <div className="media align-items-center">
-                                                    <div className="">
-                                                        <img className="avatar-40 rounded" src="src/style/images/user/05.jpg" alt="" />
-                                                    </div>
-                                                    <div className="media-body ml-3">
-                                                        <h6 className="mb-0 ">TV Team</h6>
-                                                        <small className="float-left font-size-12">5 Dec</small>
-                                                    </div>
-                                                </div>
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </li>
+        
                          
                             {user ?
                                 <li className="line-height pt-3">

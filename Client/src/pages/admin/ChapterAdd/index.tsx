@@ -27,6 +27,9 @@ const SubmitButton = ({ form }: { form: FormInstance }) => {
     // Watch all values
     const values = Form.useWatch([], form);
     console.log("values",values);
+    const chapter= useAppSelector((state)=>state.Chapter.chapters);
+    console.log("chapter", chapter);
+
 
     React.useEffect(() => {
         form.validateFields({ validateOnly: true }).then(
