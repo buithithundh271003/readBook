@@ -1,6 +1,4 @@
 import { Button, Form, Input, message } from "antd";
-import axios from "axios";
-import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAppDispatch } from "../../../redux/hook";
 import { handleLogin } from "../../../redux/Reducer/authSlice";
@@ -42,27 +40,6 @@ const signin = () => {
                 const serverErrorMessage = error.response.message; // Điều chỉnh dựa trên cấu trúc phản hồi thực tế từ máy chủ
                 console.log(serverErrorMessage);
 
-                // // Kiểm tra xem lỗi có liên quan đến trường nào
-                // if (serverErrorMessage.includes("Account does not exist. Please check again")) {
-                //     // Nếu lỗi liên quan đến "email", đặt lỗi cho trường "email"
-                //     form.setFields([
-                //         {
-                //             name: 'email',
-                //             errors: [serverErrorMessage],
-                //         },
-                //     ]);
-                // } else if (serverErrorMessage.includes("password")) {
-                //     // Nếu lỗi liên quan đến "password", đặt lỗi cho trường "password"
-                //     form.setFields([
-                //         {
-                //             name: 'password',
-                //             errors: [serverErrorMessage],
-                //         },
-                //     ]);
-                // } else {
-                //     // Nếu lỗi không liên quan đến bất kỳ trường nào, xử lý nó ở đây
-                //     console.log(serverErrorMessage);
-                // }
             } else {
                 // Xử lý lỗi khác (không phải lỗi phản hồi từ máy chủ)
                 console.log(error);

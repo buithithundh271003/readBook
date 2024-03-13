@@ -5,18 +5,15 @@ import { useAppDispatch, useAppSelector } from "../../../redux/hook";
 import { getAllProduct } from "../../../redux/Reducer/ProductSlice";
 import { getAllChapter} from "../../../redux/Reducer/Chapter";
 
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import IProduct from "../../../interface/product";
 import IChapter from "../../../interface/chapter";
-import Item from "antd/es/list/Item";
 import "./index.scss";
-
-
-
+import { FacebookShareButton } from 'react-share';
 
 const productDetail = () => {
     const dispatch = useAppDispatch();
-    const navigate = useNavigate();
+   
     const [user, setUser] = useState()
 
     const products = useAppSelector((state) => state.Product.products);
@@ -29,7 +26,7 @@ const productDetail = () => {
     console.log(categories);
 
 
-    const [quantity, setQuantity] = useState(1)
+    
     useEffect(() => {
         // setIsLoading(true);
         dispatch(getAllProduct())
@@ -62,12 +59,6 @@ const productDetail = () => {
     console.log("productsdetail",product);
 
 
-
-
-    // }
- 
-
- 
 
     const cateProduct = products?.filter((newProduct: IProduct) => newProduct.categoryId?._id === product?.categoryId?._id);
     return <>
@@ -131,7 +122,14 @@ const productDetail = () => {
                                                         <h5 className="mr-2">Chia sẻ:</h5>
                                                         <ul className="list-inline d-flex p-0 mb-0 align-items-center">
                                                             <li>
-                                                                <Link to="#" className="avatar-40 rounded-circle bg-primary mr-2 facebook"><i className="fa fa-facebook" aria-hidden="true"></i></Link>
+                                                                <FacebookShareButton
+                                                                    url={'https://www.example.com'}
+                                                                    quote={'pro'}
+                                                                    hashtag="#truyện hay"
+                                                                >
+                                                                     <Link to="#" className="avatar-40 rounded-circle bg-primary mr-2 facebook"><i className="fa fa-facebook" aria-hidden="true"></i></Link>
+
+                                                                </FacebookShareButton>
                                                             </li>
                                                             <li>
                                                                 <Link to="#" className="avatar-40 rounded-circle bg-primary mr-2 twitter"><i className="fa fa-twitter" aria-hidden="true"></i></Link>
@@ -167,17 +165,7 @@ const productDetail = () => {
                                                         </>
                                                      })}
                                                    
-                                                  {/* {user ?
-                                                           
-                                                         
-                                                            <button className="btn btn-primary view-more mr-2" onClick={() => navigate(`/viewBook/${}`)}>Mua ngay</button>
-                                                        
-                                                        :
-                                                        <div className="mb-4 d-flex align-items-center">
-                                                           
-                                                            <button className="btn btn-primary view-more mr-2" onClick={() => navigate(`/signin`)}>Mua ngay</button>
-                                                        </div>
-                                                    }  */}
+                                        
                                            
                                                 </div>
                                             </div>
@@ -220,201 +208,13 @@ const productDetail = () => {
 
                                             </>
                                         })}
-                                        {/* <li className="col-md-3">
-                                            <div className="row align-items-center">
-                                                <div className="col-5">
-                                                    <div className="position-relative image-overlap-shadow">
-                                                        <Link to="#"><img className="img-fluid rounded w-100" src="images/similar-books/02.jpg" alt="" /></Link>
-                                                        <div className="view-book">
-                                                            <Link to="book-page.html" className="btn btn-sm btn-white">Xem sách</Link>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div className="col-7 pl-0">
-                                                    <h6 className="mb-2">Nhà Lãnh Đạo Không Chức Danh</h6>
-                                                    <p className="text-body">Tác giả : NXB Trẻ</p>
-                                                    <Link to="#" className="text-dark" >Đọc ngay<i className="ri-arrow-right-s-line"></i></Link>
-                                                </div>
-                                            </div>
-                                        </li>
-                                        <li className="col-md-3">
-                                            <div className="row align-items-center">
-                                                <div className="col-5">
-                                                    <div className="position-relative image-overlap-shadow">
-                                                        <Link to="#"><img className="img-fluid rounded w-100" src="images/similar-books/03.jpg" alt="" /></Link>
-                                                        <div className="view-book">
-                                                            <Link to="book-page.html" className="btn btn-sm btn-white">Xem sách</Link>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div className="col-7 pl-0">
-                                                    <h6 className="mb-2">Nghệ Thuật đầu tư Dhandho...</h6>
-                                                    <p className="text-body">Tác giả : Bill Emia</p>
-                                                    <Link to="#" className="text-dark" >Đọc ngay<i className="ri-arrow-right-s-line"></i></Link>
-                                                </div>
-                                            </div>
-                                        </li>
-                                        <li className="col-md-3">
-                                            <div className="row align-items-center">
-                                                <div className="col-5">
-                                                    <div className="position-relative image-overlap-shadow">
-                                                        <Link to="#"><img className="img-fluid rounded w-100" src="images/similar-books/04.jpg" alt="" /></Link>
-                                                        <div className="view-book">
-                                                            <Link to="book-page.html" className="btn btn-sm btn-white">Xem sách</Link>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div className="col-7 pl-0">
-                                                    <h6 className="mb-2">Từ Tốt Đến Vĩ Đại.</h6>
-                                                    <p className="text-body">Tác giả : Hal Appeno</p>
-                                                    <Link to="#" className="text-dark" >Đọc ngay<i className="ri-arrow-right-s-line"></i></Link>
-                                                </div>
-                                            </div>
-                                        </li>
-                                        <li className="col-md-3">
-                                            <div className="row align-items-center">
-                                                <div className="col-5">
-                                                    <div className="position-relative image-overlap-shadow">
-                                                        <Link to="#"><img className="img-fluid rounded w-100" src="images/similar-books/05.jpg" alt="" /></Link>
-                                                        <div className="view-book">
-                                                            <Link to="book-page.html" className="btn btn-sm btn-white">Xem sách</Link>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div className="col-7 pl-0">
-                                                    <h6 className="mb-2">D. Trump - Đừng Bao Giờ Bỏ Cuộc..</h6>
-                                                    <p className="text-body">Tác giả : Zack Lee</p>
-                                                    <Link to="#" className="text-dark" >Đọc ngay<i className="ri-arrow-right-s-line"></i></Link>
-                                                </div>
-                                            </div>
-                                        </li> */}
+                                        
                                     </ul>
                                 </div>
                             </div>
                         </div>
-                        <div className="col-lg-12">
-                            <div className="iq-card iq-card-block iq-card-stretch iq-card-height">
-                                <div className="iq-card-header d-flex justify-content-between align-items-center position-relative mb-0 trendy-detail">
-                                    <div className="iq-header-title">
-                                        <h4 className="card-title mb-0">Thịnh hành</h4>
-                                    </div>
-                                    <div className="iq-card-header-toolbar d-flex align-items-center">
-                                        <Link to={`/products`} className="btn btn-sm btn-primary view-more">Xem thêm</Link>
-                                    </div>
-                                </div>
-                                <div className="iq-card-body trendy-contens">
-                                    <ul id="trendy-slider" className="list-inline p-0 mb-0 row">
-                                        <li className="col-md-3">
-                                            <div className="d-flex align-items-center">
-                                                <div className="col-5 p-0 position-relative image-overlap-shadow">
-                                                    <Link to="#"><img className="img-fluid rounded w-100" src="images/trendy-books/01.jpg" alt="" /></Link>
-                                                    <div className="view-book">
-                                                        <Link to="book-page.html" className="btn btn-sm btn-white">Xem sách</Link>
-                                                    </div>
-                                                </div>
-                                                <div className="col-7">
-                                                    <div className="mb-2">
-                                                        <h6 className="mb-1">Sinh Ra Để Trở Thành ..</h6>
-                                                        <p className="font-size-13 line-height mb-1">Paul Molive</p>
-                                                        <div className="d-block">
-                                                            <span className="font-size-13 text-warning">
-                                                                <i className="fa fa-star"></i>
-                                                                <i className="fa fa-star"></i>
-                                                                <i className="fa fa-star"></i>
-                                                                <i className="fa fa-star"></i>
-                                                                <i className="fa fa-star"></i>
-                                                            </span>
-                                                        </div>
-                                                    </div>
-                                                    <div className="price d-flex align-items-center">
-                                                        <h6><b>107.900 ₫</b></h6>
-                                                    </div>
-                                                    <div className="iq-product-action">
-                                                        <Link to="#"><i className="ri-shopping-cart-2-fill text-primary"></i></Link>
-                                                        <Link to="#" className="ml-2"><i className="ri-heart-fill text-danger"></i></Link>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </li>
-                                        <li className="col-md-3">
-                                            <div className="d-flex align-items-center">
-                                                <div className="col-5 p-0 position-relative image-overlap-shadow">
-                                                    <Link to="#"><img className="img-fluid rounded w-100" src="images/trendy-books/02.jpg" alt="" /></Link>
-                                                    <div className="view-book">
-                                                        <Link to="book-page.html" className="btn btn-sm btn-white">Xem sách</Link>
-                                                    </div>
-                                                </div>
-                                                <div className="col-7">
-                                                    <div className="mb-2">
-                                                        <h6 className="mb-1">Năng Lực Tìm Kiếm</h6>
-                                                        <p className="font-size-13 line-height mb-1">Anna Sthesia</p>
-                                                        <div className="d-block">
-                                                            <span className="font-size-13 text-warning">
-                                                                <i className="fa fa-star"></i>
-                                                                <i className="fa fa-star"></i>
-                                                                <i className="fa fa-star"></i>
-                                                                <i className="fa fa-star"></i>
-                                                                <i className="fa fa-star"></i>
-                                                            </span>
-                                                        </div>
-                                                    </div>
-                                                    <div className="price d-flex align-items-center">
-                                                        <h6><b>45.500 ₫</b></h6>
-                                                    </div>
-                                                    <div className="iq-product-action">
-                                                        <Link to="#"><i className="ri-shopping-cart-2-fill text-primary"></i></Link>
-                                                        <Link to="#" className="ml-2"><i className="ri-heart-fill text-danger"></i></Link>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </li>
-                                       
-                                      
-                                      
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="col-lg-12">
-                            <div className="iq-card iq-card-block iq-card-stretch iq-card-height">
-                                <div className="iq-card-header d-flex justify-content-between align-items-center position-relative">
-                                    <div className="iq-header-title">
-                                        <h4 className="card-title mb-0">Sách yêu thích</h4>
-                                    </div>
-                                    <div className="iq-card-header-toolbar d-flex align-items-center">
-                                        <Link to={`/products`} className="btn btn-sm btn-primary view-more">Xem thêm</Link>
-                                    </div>
-                                </div>
-                                <div className="iq-card-body favorites-contens">
-                                    <ul id="favorites-slider" className="list-inline p-0 mb-0 row">
-                                        <li className="col-md-4">
-                                            <div className="d-flex align-items-center">
-                                                <div className="col-5 p-0 position-relative">
-                                                    <Link to="#">
-                                                        <img src="images/favorite/01.jpg" className="img-fluid rounded w-100" alt="" />
-                                                    </Link>
-                                                </div>
-                                                <div className="col-7">
-                                                    <h5 className="mb-2">D. Trump - Nghệ Thuật Đàm Phán</h5>
-                                                    <p className="mb-2">Tác giả : Pedro Araez</p>
-                                                    <div className="d-flex justify-content-between align-items-center text-dark font-size-13">
-                                                        <span>Đã bán</span>
-                                                        <span className="mr-4">65</span>
-                                                    </div>
-                                                    <div className="iq-progress-bar-linear d-inline-block w-100">
-                                                        <div className="iq-progress-bar iq-bg-primary">
-                                                            <span className="bg-primary" data-percent="65"></span>
-                                                        </div>
-                                                    </div>
-                                                    <Link to="#" className="text-dark">Đọc ngay<i className="ri-arrow-right-s-line"></i></Link>
-                                                </div>
-                                            </div>
-                                        </li>
-                                    
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
+                    
+                     
                     </div>
                 </div>
             </div>
