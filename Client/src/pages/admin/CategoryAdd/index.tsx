@@ -12,6 +12,7 @@ const SubmitButton = ({ form }: { form: FormInstance }) => {
 
     // Watch all values
     const values = Form.useWatch([], form);
+    console.log("TEST ",values);
 
     React.useEffect(() => {
         form.validateFields({ validateOnly: true }).then(

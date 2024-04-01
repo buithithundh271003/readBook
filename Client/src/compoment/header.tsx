@@ -4,7 +4,6 @@ import { useAppDispatch, useAppSelector } from "../redux/hook";
 import { getAllCategory } from "../redux/Reducer/CategorySlice";
 import { Link, useNavigate } from "react-router-dom";
 import { getAllProduct } from "../redux/Reducer/ProductSlice";
-import IProduct from "../interface/product";
 import { message } from "antd";
 
 const Header = () => {
@@ -19,7 +18,6 @@ const Header = () => {
     
 
     const logout = () => {
-        localStorage.removeItem("myCat");
         localStorage.clear();
         message.success("Đăng xuất thành công");
         navigate('/')

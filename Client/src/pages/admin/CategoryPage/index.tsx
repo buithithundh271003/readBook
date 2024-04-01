@@ -18,8 +18,6 @@ interface DataType {
 
 const categoryPage = () => {
     const dispatch = useAppDispatch();
-    const chapter= useAppSelector((state)=>state.Chapter.chapters);
-    console.log("chapter", chapter);
 
     const categories = useAppSelector((state) => state.Category.categories);
 

@@ -1,7 +1,6 @@
 import { Button, Form, Input, message } from "antd";
 import axios from "axios";
-// import '../../../index.css'
-import { useState } from "react";
+
 import { Link, useNavigate } from "react-router-dom";
 
 type FormDataType = {
@@ -17,6 +16,7 @@ const signup = () => {
 
     const onFinish = async (data: FormDataType) => {
         try {
+            console.log("data",data);
             await axios.post("http://localhost:8080/api/signup", data);
             message.success("Successfully registered");
             navigate("/signin");

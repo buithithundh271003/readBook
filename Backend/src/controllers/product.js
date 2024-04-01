@@ -37,19 +37,18 @@ export const addProduct = async (req, res) => {
     }
 };
 
-// GET LIST PRODUCTS
 export const getProducts = async (req, res) => {
     try {
         const {
             _page = 1,
-            _limit = 8,
+            _limit = 18,
             _sort = "createdAt",
             _order = "desc",
             _searchText,
             
         } = req.query;
-        console.log("Aaaaaaaaaaaaa", _searchText);
-        console.log("Aaaaaaaaaaaaathu", req.query);
+        // console.log("Aaaaaaaaaaaaa", _searchText);
+        // console.log("Aaaaaaaaaaaaathu", req.query);
 
         let query = {};
         if (_searchText) {
