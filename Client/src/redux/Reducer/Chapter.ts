@@ -51,7 +51,7 @@ const chapterSlice = createSlice({
     initialState,
     reducers: {
         getChapterByProduct: (state, action) => {
-            state.chapter = action.payload;
+            state.chapters = action.payload;
         },
     },
     extraReducers: (builder) => {
@@ -60,7 +60,7 @@ const chapterSlice = createSlice({
                 state.loading = true;
             })
             .addCase(getAllChapter.fulfilled, (state, action) => {
-                state.chapter = action.payload.data;
+                state.chapters = action.payload.data;
                 state.loading = false;
             })
             .addCase(getAllChapter.rejected, (state) => {
@@ -96,7 +96,7 @@ const chapterSlice = createSlice({
                 state.loading = true;
             })
             .addCase(removeChapter.fulfilled, (state, action) => {
-                state.chapter = state.chapter?.filter(
+                state.chapters = state.chapters?.filter(
                     (chapter: Ichapter) => chapter._id !== action.payload
                 );
 
