@@ -6,7 +6,7 @@ import categoryRouter from "./routes/category";
 import productRouter from "./routes/product";
 import uploadRouter from "./routes/upload";
 
-
+import chapterRouter from "./routes/chapterRouter";
 import userRouter from "./routes/user";
 
 
@@ -25,6 +25,6 @@ app.use("/api/products", productRouter)
 app.use("/api/images", uploadRouter);
 app.use("/api",userRouter);
 
-
+app.use("/api/chapters", chapterRouter)
 
 export const viteNodeApp = app;

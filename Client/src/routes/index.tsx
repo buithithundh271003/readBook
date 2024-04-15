@@ -11,7 +11,9 @@ import signin from "../pages/client/Signin/index.";
 import signup from "../pages/client/Signup";
 import categoryPage from "../pages/admin/CategoryPage";
 
-
+import chapterPage from"../pages/admin/ChapterPage";
+import chapterAdd from"../pages/admin/ChapterAdd";
+import chapterUpdate from "../pages/admin/ChapterUpdate";
 
 
 
@@ -36,6 +38,8 @@ export const privateRoutes = [
     { path: routes.adminCategorys, Component: categoryPage },
     { path: routes.adminCategoryAdd, Component: categoryAdd },
     { path: routes.adminCategoryUpdate, Component: categoryUpdate },
-
+    {path:routes.adminChapters,Component:chapterPage},
+    {path:routes.adminChapterAdd,Component:chapterAdd},
+    {path:routes.adminChapterUpdate,Component:chapterUpdate},
 
 ]

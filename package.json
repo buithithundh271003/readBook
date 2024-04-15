@@ -1,6 +1,7 @@
 {
   "dependencies": {
     "react-share": "^5.1.0",
-    "react-share-social": "^0.1.55"
+    "react-share-social": "^0.1.55",
+    "tailwindcss": "^3.4.3"
   }
 }
