@@ -15,14 +15,14 @@ import chapterPage from"../pages/admin/ChapterPage";
 import chapterAdd from"../pages/admin/ChapterAdd";
 import chapterUpdate from "../pages/admin/ChapterUpdate";
 
-
+import viewBook from "../pages/client/viewBook";
 
 
 export const publicRoutes = [
     { path: routes.home, Component: homePage },
     {path:routes.products,Component:Product},
     {path:routes.productDetail,Component:productDetail},
-
+    {path:routes.viewBook,Component:viewBook},
 
   
     { path: routes.signin, Component: signin },

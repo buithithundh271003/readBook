@@ -75,7 +75,7 @@ const Header = () => {
                 </nav>
             </div>
         </div>
-        <div className="iq-top-navbar">
+        <div className="bg-gray-800 iq-top-navbar">
             <div className="iq-navbar-custom">
                 <nav className="navbar navbar-expand-lg navbar-light p-0">
                     <div className="iq-menu-bt d-flex align-items-center">
@@ -120,7 +120,7 @@ const Header = () => {
                                     <a href="#" className="search-toggle iq-waves-effect d-flex align-items-center">
                                         {/* <img src="src/style/images/user/1.jpg" className="img-fluid rounded-circle mr-3" alt="user" /> */}
                                         <div className="caption">
-                                            <h6 className="mb-1 line-height">{user.fullname}</h6>
+                                            <h6 className="mb-1 line-height text-white">Xin Chào, {user.fullname}</h6>
                                             <p className="mb-0 text-primary">Tài Khoản</p>
                                         </div>
                                     </a>
@@ -145,9 +145,9 @@ const Header = () => {
                                                         <div className="rounded iq-card-icon iq-bg-primary">
                                                             <i className="ri-account-box-line"></i>
                                                         </div>
-                                                        <div className="media-body ml-3">
+                                                        {/* <div className="media-body ml-3">
                                                             <h6 className="mb-0 ">Đơn hàng của tôi</h6>
-                                                        </div>
+                                                        </div> */}
                                                     </div>
                                                 </Link>
                                                 <div className="d-inline-block w-100 text-center p-3">

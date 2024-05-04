@@ -6,6 +6,8 @@ import { useAppDispatch, useAppSelector } from "../../../redux/hook";
 import { getAllProduct } from "../../../redux/Reducer/ProductSlice";
 import { Link } from "react-router-dom";
 import { getAllCategory } from "../../../redux/Reducer/CategorySlice";
+import { getAllReview } from "../../../redux/Reducer/review";
+
 const Product = () => {
     const [input, setInput] = useState("");
     const dispatch = useAppDispatch();
@@ -13,16 +15,25 @@ const Product = () => {
     const [result, setResult] = useState(products);
     const [value, setValue] = useState("");
     const categories = useAppSelector((state)=>state.Category.categories);
+    const rv = useAppSelector((state) => state.Review.reviews);
+    console.log("rrt",rv);
+    console.log(rv);
     useEffect(() => {
         // setIsLoading(true);
         dispatch(getAllProduct())
+        dispatch(getAllReview())
+
     }, [dispatch]);
     useEffect(()=>{
+        dispatch(getAllReview())
+
         dispatch(getAllCategory())
     },[dispatch]);
     useEffect(() => {
         // setIsLoading(true);
         dispatch(getAllProduct())
+        dispatch(getAllReview())
+
     }, []);
     const handleClick = (value)=>{
        setInput(value);

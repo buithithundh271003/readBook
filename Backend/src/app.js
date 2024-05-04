@@ -8,6 +8,7 @@ import uploadRouter from "./routes/upload";
 
 import chapterRouter from "./routes/chapterRouter";
 import userRouter from "./routes/user";
+import review from "./routes/review";
 
 
 dotenv.config();
@@ -26,5 +27,7 @@ app.use("/api/images", uploadRouter);
 app.use("/api",userRouter);
 
 app.use("/api/chapters", chapterRouter)
+app.use("/api/review", review)
+
 
 export const viteNodeApp = app;

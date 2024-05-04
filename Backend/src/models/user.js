@@ -7,6 +7,9 @@ const userSchema = new Schema(
         confirmPassword: { type: String },
         role: { type: String, enum: ["admin", "member"], default: "member" },
         cartId: { type: mongoose.Schema.Types.ObjectId, ref: "Cart" },
+        reviewId: { type: mongoose.Schema.Types.ObjectId, ref: "Review" },
+
+
         bills: [{ billId: { type: mongoose.Schema.Types.ObjectId, ref: "Bill" } }],
     },
     { timestamps: true, versionKey: false }

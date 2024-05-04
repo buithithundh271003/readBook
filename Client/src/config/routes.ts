@@ -7,7 +7,7 @@ const routes = {
  
     signin: "/signin",
     signup: "/signup",
-
+    viewBook:"/viewBook/:id",
     // Admin 
     admin: "/admin",
     adminDashboard: "/admin/dashboard",
