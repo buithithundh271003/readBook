@@ -18,7 +18,7 @@ export const getAllCategory = createAsyncThunk(
     "category/getCategory",
     async () => {
         const { data } = await axios.get<{ categories: ICategory[] }>(
-            "http://localhost:8080/api/categories"
+            "http://localhost:3000/api/categories"
         );
         return data.categories;
     }
@@ -28,7 +28,7 @@ export const createCatetgory = createAsyncThunk(
     "category/createCatetgory",
     async (category: ICategory) => {
         const { data } = await axios.post<{ category: ICategory }>(
-            "http://localhost:8080/api/categories",
+            "http://localhost:3000/api/categories",
             category
         );
         return data;
@@ -39,7 +39,7 @@ export const updateCategory = createAsyncThunk(
     "category/updateCategory",
     async (category: ICategory) => {
         const { data } = await axios.patch<{ category: ICategory }>(
-            `http://localhost:8080/api/categories/${category._id!}`,
+            `http://localhost:3000/api/categories/${category._id!}`,
             category
         );
         return data;
@@ -49,7 +49,7 @@ export const updateCategory = createAsyncThunk(
 export const removeCategory = createAsyncThunk(
     "category/removeCategory",
     async (id: string) => {
-        await axios.delete(`http://localhost:8080/api/categories/${id}`);
+        await axios.delete(`http://localhost:3000/api/categories/${id}`);
         return id;
     }
 );

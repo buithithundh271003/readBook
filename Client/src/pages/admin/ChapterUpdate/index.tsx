@@ -107,12 +107,7 @@ const chapterUpdate = () => {
         navigate("/admin/product");
     };
 
-    const props: UploadProps = {
-        listType: "picture",
-        name: "image",
-        multiple: true,
-        action: "http://localhost:8080/api/images/upload",
-    };
+
 
 
     return <>

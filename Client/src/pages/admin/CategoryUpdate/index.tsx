@@ -41,7 +41,7 @@ const categoryUpdate = () => {
     form.setFieldsValue(category);
     useEffect(() => {
         axios
-            .get(`http://localhost:8080/api/categories/${id!}`)
+            .get(`http://localhost:3000/api/categories/${id!}`)
             .then(({ data }) => setCategory(data.category))
             .catch((error) => console.log(error));
     }, [id])

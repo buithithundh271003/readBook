@@ -16,7 +16,7 @@ const Product = () => {
     const [value, setValue] = useState("");
     const categories = useAppSelector((state)=>state.Category.categories);
     const rv = useAppSelector((state) => state.Review.reviews);
-    console.log("rrt",rv);
+    console.log("rrt thu",products);
     console.log(rv);
     useEffect(() => {
         // setIsLoading(true);
@@ -35,14 +35,14 @@ const Product = () => {
         dispatch(getAllReview())
 
     }, []);
-    const handleClick = (value)=>{
+    const handleClick = (value: any)=>{
        setInput(value);
        setValue(value);
     
     }
     
     
-    const handleDanhMuc = (value)=>{
+    const handleDanhMuc = (value: any)=>{
         console.log(value);
         if(value=="Tất cả") {
             setResult(products);
@@ -71,6 +71,7 @@ const Product = () => {
             }
              
     }
+    console.log(result);
     return <>
         <div className="wrapper">
             <Header />
@@ -87,7 +88,7 @@ const Product = () => {
                                                 <div className="iq-dropdown">
                                                     <div className="form-group mb-0">
                                                         <select className="form-control form-search-control bg-white border-0" id="exampleFormControlSelect1">
-                                                            <option selected="">All</option>
+                                                            <option selected={true}>All</option>
                                                             <option>A Books</option>
                                                             <option>the Sun</option>
                                                             <option>Harsh book</option>
@@ -112,26 +113,12 @@ const Product = () => {
                                                     </div>
                                                 </div>
                                             </li>
-                                            <li className="search-menu-opt">
-                                                <div className="iq-dropdown">
-                                                    <div className="form-group mb-0">
-                                                        <select className="form-control form-search-control bg-white border-0" id="exampleFormControlSelect3">
-                                                            <option selected="">Year</option>
-                                                            <option>2015</option>
-                                                            <option>2016</option>
-                                                            <option>2017</option>
-                                                            <option>2018</option>
-                                                            <option>2019</option>
-                                                            <option>2020</option>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                            </li>
+                                          
                                             <li className="search-menu-opt">
                                                 <div className="iq-dropdown">
                                                     <div className="form-group mb-0">
                                                     <select onChange={(e)=>handleDanhMuc(e.target.value)}className="form-control form-search-control bg-white border-0" id="exampleFormControlSelect4">
-                                                    <option  selected="" >Tất cả</option>
+                                                    <option  selected={true} >Tất cả</option>
                                                         {categories?.map(item=>{
                                                             
                                                             return <>

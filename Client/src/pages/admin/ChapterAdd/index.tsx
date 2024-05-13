@@ -1,16 +1,18 @@
 import React, { useEffect, useState } from 'react';
-import type { FormInstance, } from 'antd';
+import type { FormInstance, UploadProps } from 'antd';
 import {
     Button,
     Form,
     Input,
     InputNumber,
     Select,
+    Upload,
     Space,
     message,
     
     Spin
 } from 'antd';
+import { UploadOutlined } from "@ant-design/icons";
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../../redux/hook';
 import Iproduct from '../../../interface/product';
@@ -20,7 +22,7 @@ import Iproduct from '../../../interface/product';
 import { createChapter } from '../../../redux/Reducer/Chapter';
 const { TextArea } = Input;
 
-
+const { Dragger } = Upload;
 const SubmitButton = ({ form }: { form: FormInstance }) => {
     const [submittable, setSubmittable] = React.useState(false);
 
@@ -38,6 +40,12 @@ const SubmitButton = ({ form }: { form: FormInstance }) => {
             },
         );
     }, [values]);
+    const props: UploadProps = {
+        listType: "picture",
+        name: "image",
+        multiple: true,
+        action: "http://localhost:3000/api/images/upload",
+    };
 
     return (
         <Button type="primary" htmlType="submit" disabled={!submittable} className='bg-blue-500'>
@@ -68,12 +76,18 @@ const chapterAdd = () => {
        
 
         const newValues = { ...values};
+        console.log("ki",newValues);
 
         void dispatch(createChapter(newValues));
         await message.success(`Add chapter successfully!`);
         navigate("/admin/chapter");
     };
-
+    // const props: UploadProps = {
+    //     listType: "picture",
+    //     name: "image",
+    //     multiple: true,
+    //     action: "http://localhost:3000/api/images/upload",
+    // };
   
     return <>
         {isLoading ? (
@@ -136,16 +150,10 @@ const chapterAdd = () => {
                         <TextArea rows={4} />
                     </Form.Item>
                      {/* Input Desription */}
-                     <Form.Item
-                        name="content"
-                        label="Content"
-                        rules={[
-                            {
-                                required: true, message: 'Please input your Content!'
-                            }
-                        ]}
-                    >
-                        <TextArea rows={4} />
+                     <Form.Item label="Files" name="content" rules={[{ required: true, message: 'Please input your Image!' }]}>
+                     <Upload >
+                        <Button icon={<UploadOutlined />}>Select File</Button>
+                    </Upload>
                     </Form.Item>
                     <Form.Item>
                         <Space>

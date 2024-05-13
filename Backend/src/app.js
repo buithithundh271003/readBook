@@ -5,6 +5,8 @@ import connectDB from "./config/database";
 import categoryRouter from "./routes/category";
 import productRouter from "./routes/product";
 import uploadRouter from "./routes/upload";
+import fileRouter from "./routes/fileRouter";
+
 
 import chapterRouter from "./routes/chapterRouter";
 import userRouter from "./routes/user";
@@ -24,6 +26,10 @@ connectDB(process.env.MONGODB_URL)
 app.use("/api/categories", categoryRouter)
 app.use("/api/products", productRouter)
 app.use("/api/images", uploadRouter);
+app.use("/api/files", fileRouter);
+
+
+
 app.use("/api",userRouter);
 
 app.use("/api/chapters", chapterRouter)

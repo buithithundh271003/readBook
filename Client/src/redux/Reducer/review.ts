@@ -19,7 +19,7 @@ export const getAllReview = createAsyncThunk(
     console.log("18rv");
 
         const { data } = await axios.get<{ reviews: IReview[] }>(
-            "http://localhost:8080/api/review"
+            "http://localhost:3000/api/review"
         );
         console.log(data);
     console.log("------------25rv-------------");
@@ -32,7 +32,7 @@ export const createReview = createAsyncThunk(
     "review/addReviews",
     async (review: IReview) => {
         const { data } = await axios.post<{ review: IReview }>(
-            "http://localhost:8080/api/review",
+            "http://localhost:3000/api/review",
             review
         );
 

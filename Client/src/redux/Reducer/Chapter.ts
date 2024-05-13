@@ -20,7 +20,7 @@ export const getAllChapter = createAsyncThunk(
         const {
             data: { chapters }
         } = await axios.get<{ chapters: Ichapter[] }>(
-            `http://localhost:8080/api/chapters${query ?? ""}`
+            `http://localhost:3000/api/chapters${query ?? ""}`
         );
         return chapters;
     }
@@ -30,7 +30,7 @@ export const createChapter = createAsyncThunk(
     async (chapter: Ichapter) => {
         console.log("chapter",chapter);
         const { data } = await axios.post<{ chapter: Ichapter }>(
-            "http://localhost:8080/api/chapters",
+            "http://localhost:3000/api/chapters",
             chapter
         );
 
@@ -41,7 +41,7 @@ export const removeChapter = createAsyncThunk(
     "products/removeProducts",
     async (id: string) => {
         console.log("remove",id)
-        await axios.delete(`http://localhost:8080/api/chapters/${id}`);
+        await axios.delete(`http://localhost:3000/api/chapters/${id}`);
 
         return id;
     }

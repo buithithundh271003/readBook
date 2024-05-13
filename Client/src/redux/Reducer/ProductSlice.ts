@@ -21,7 +21,7 @@ export const getAllProduct = createAsyncThunk(
         const {
             data: { products }
         } = await axios.get<{ products: IProduct[] }>(
-            `http://localhost:8080/api/products${query ?? ""}`
+            `http://localhost:3000/api/products${query ?? ""}`
         );
         return products;
     }
@@ -32,7 +32,7 @@ export const createProduct = createAsyncThunk(
     async (product: IProduct) => {
         console.log("product",product);
         const { data } = await axios.post<{ product: IProduct }>(
-            "http://localhost:8080/api/products",
+            "http://localhost:3000/api/products",
             product
         );
 
@@ -44,7 +44,7 @@ export const updateProduct = createAsyncThunk(
     "products/updateProducts",
     async (product: IProduct) => {
         const { data } = await axios.patch<{ product: IProduct }>(
-            `http://localhost:8080/api/products/${product._id!}`,
+            `http://localhost:3000/api/products/${product._id!}`,
             product
         );
         return data;
@@ -55,7 +55,7 @@ export const removeProduct = createAsyncThunk(
     "products/removeProducts",
     async (id: string) => {
         console.log("remove",id)
-        await axios.delete(`http://localhost:8080/api/products/${id}`);
+        await axios.delete(`http://localhost:3000/api/products/${id}`);
 
         return id;
     }

@@ -86,7 +86,7 @@ const productAdd = () => {
         listType: "picture",
         name: "image",
         multiple: true,
-        action: "http://localhost:8080/api/images/upload",
+        action: "http://localhost:3000/api/images/upload",
     };
     return <>
         {isLoading ? (

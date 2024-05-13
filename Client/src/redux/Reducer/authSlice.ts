@@ -18,7 +18,7 @@ export const handleLogin = createAsyncThunk(
     "auth/Login",
     async (user: { email: string; password: string }) => {
         const { data } = await axios.post<{ user: any }>(
-            "http://localhost:8080/api/signin",
+            "http://localhost:3000/api/signin",
             user
         );
 

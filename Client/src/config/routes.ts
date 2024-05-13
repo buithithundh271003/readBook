@@ -1,3 +1,4 @@
+
 const routes = {
     //Client
     home: "/",
@@ -8,8 +9,12 @@ const routes = {
     signin: "/signin",
     signup: "/signup",
     viewBook:"/viewBook/:id",
+    review:"/review",
+
     // Admin 
     admin: "/admin",
+    pdf: "/pdf",
+
     adminDashboard: "/admin/dashboard",
     adminProducts: "/admin/product",
   

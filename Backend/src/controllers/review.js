@@ -5,12 +5,12 @@ import { reviewSchema } from "../schemas/review"
 export const addReview = async (req, res) => {
     try {
         console.log(req.body);
-        const { error } = reviewSchema.validate(req.body, { abortEarly: false });
+        // const { error } = reviewSchema.validate(req.body, { abortEarly: false });
 
-        if (error) {
-            const errors = error.details.map((err) => err.message);
-            return res.status(400).json({ errors });
-        }
+        // if (error) {
+        //     const errors = error.details.map((err) => err.message);
+        //     return res.status(400).json({ errors });
+        // }
         const review = await Review.create(req.body);
         if (!review) {
             return res.status(404).json({

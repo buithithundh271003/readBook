@@ -266,7 +266,7 @@ const homePage = () => {
                                                             <span className="bg-danger" data-percent="45"></span>
                                                         </div>
                                                     </div>
-                                                            <Link to={`/products/`} className="text-danger">Đọc ngay<i className="ri-arrow-right-s-line"></i></Link>
+                                                            <Link to={`/`} className="text-danger">Đọc ngay<i className="ri-arrow-right-s-line"></i></Link>
                                                         </div>
                                                     </div>
                                                 </li>

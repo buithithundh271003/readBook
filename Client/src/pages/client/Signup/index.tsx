@@ -17,7 +17,7 @@ const signup = () => {
     const onFinish = async (data: FormDataType) => {
         try {
             console.log("data",data);
-            await axios.post("http://localhost:8080/api/signup", data);
+            await axios.post("http://localhost:3000/api/signup", data);
             message.success("Successfully registered");
             navigate("/signin");
         } catch (error: any) {
