@@ -210,7 +210,7 @@ const SubmitButton = ({ form }) => {
             <div className="flex items-center">
                 {/* <div>{record}</div> */}
             <Link to={`/viewBook/${record._id}`} >
-              <a className="w-full overflow-hidden">{record.name}</a>
+              <a className="w-full overflow-hidden" style={{fontWeight:"bold"}}>{record.name}</a>
 
               </Link>
             </div>
@@ -228,7 +228,7 @@ const SubmitButton = ({ form }) => {
             
             <div className="flex items-center">
          <Link to={`/viewBook/${record._id}`} >
-              <a className="w-full overflow-hidden">{record.title}</a>
+              <a className="w-full overflow-hidden" style={{fontWeight:"bold"}}>{record.title}</a>
 
               </Link>
             </div>
@@ -316,15 +316,15 @@ const SubmitButton = ({ form }) => {
                                                     {u?
                                                         <div className="mb-4 d-flex align-items-center">
 
-                                                            <button className="btn btn-primary view-more mr-2" onClick={() => scrollToSection(section1Ref)}>Đọc ngay</button>
-                                                            <button className="btn btn-primary view-more mr-2" onClick={() => addToread(read)}>Đọc sau</button>
+                                                            <button className="btn btn-primary view-more mr-2"style={{fontWeight:"500", color:"black"}} onClick={() => scrollToSection(section1Ref)}>Đọc ngay</button>
+                                                            <button className="btn btn-primary view-more mr-2" style={{fontWeight:"500", color:"black"}} onClick={() => addToread(read)}>Đọc sau</button>
 
                                                         </div>
                                                         :
                                                         <div className="mb-4 d-flex align-items-center">
                               
-                                                            <button className="btn btn-primary view-more mr-2" onClick={() => navigate(`/signin`)}>Đọc ngay</button>
-                                                            <button className="btn btn-primary view-more mr-2" onClick={() => navigate(`/signin`)}>Đọc sau</button>
+                                                            <button className="btn btn-primary view-more mr-2" style={{fontWeight:"500", color:"black"}} onClick={() => navigate(`/signin`)}>Đọc ngay</button>
+                                                            <button className="btn btn-primary view-more mr-2" style={{fontWeight:"500", color:"black"}} onClick={() => navigate(`/signin`)}>Đọc sau</button>
 
                                                         </div>
                                                     }
@@ -365,7 +365,7 @@ const SubmitButton = ({ form }) => {
                                                 <div className="iq-card shadow-none m-0">
                                         <div className="iq-card-body p-0 toggle-cart-info">
                                             <div className="bg-primary p-3">
-                                                <h5 className="mb-0 text-black">Truyện mới phát hành<small className="badge  badge-light float-right pt-1">{}</small></h5>
+                                                <h5 className="mb-0 text-black" style={{fontWeight:"bold"}}>Truyện mới phát hành<small className="badge  badge-light float-right pt-1">{}</small></h5>
                                             </div>
                                             {products?.slice(0, 5).map((item, index)=> {
                                                 
@@ -446,7 +446,7 @@ const SubmitButton = ({ form }) => {
                                                 <div className="iq-card shadow-none m-0">
                                         <div className="iq-card-body p-0 toggle-cart-info">
                                             <div className="bg-primary p-3">
-                                                <h5 className="mb-0 text-black">Truyện mới phát hành<small className="badge  badge-light float-right pt-1">{}</small></h5>
+                                                <h5 className="mb-0 text-black" style={{fontWeight:"bold"}}>Truyện mới phát hành<small className="badge  badge-light float-right pt-1">{}</small></h5>
                                             </div>
                                             {products?.slice(0, 5).map((item, index)=> {
                                                 
@@ -510,7 +510,7 @@ const SubmitButton = ({ form }) => {
                             <div className="iq-card iq-card-block iq-card-stretch iq-card-height">
                                 <div className="iq-card-header d-flex justify-content-between align-items-center position-relative">
                                     <div className="iq-header-title">
-                                        <h4 className="card-title mb-0">Đánh giá gàn đây</h4>
+                                        <h4 className="card-title mb-0" style={{fontWeight:"bold"}}>Đánh giá gần đây</h4>
                                     </div>
                                 
                                    
@@ -596,7 +596,7 @@ const SubmitButton = ({ form }) => {
                             <div className="iq-card iq-card-block iq-card-stretch iq-card-height">
                                 <div className="iq-card-header d-flex justify-content-between align-items-center position-relative">
                                     <div className="iq-header-title">
-                                        <h4 className="card-title mb-0">Sản phẩm tương tự</h4>
+                                        <h4 className="card-title mb-0" style={{fontWeight:"bold"}}>Sản phẩm tương tự</h4>
                                     </div>
                                     <div className="iq-card-header-toolbar d-flex align-items-center">
                                         <Link to={`/products`} className="btn btn-sm btn-primary view-more">Xem thêm</Link>
@@ -619,7 +619,7 @@ const SubmitButton = ({ form }) => {
                                                         <div className="col-7 pl-0">
                                                             <h6 className="mb-2">{item.name}</h6>
                                                             <p className="text-body">Tác giả : {item.author}</p>
-                                                            <Link to={`/products/${item._id}`} className="text-dark" >Đọc ngay<i className="ri-arrow-right-s-line"></i></Link>
+                                                            <Link to={`/products/${item._id}`} className="text-black" >Đọc ngay<i className="ri-arrow-right-s-line"></i></Link>
                                                         </div>
                                                     </div>
                                                 </li>

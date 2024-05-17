@@ -19,7 +19,12 @@ const routes = {
     adminChuyenMucAdd: "/admin/chuyenmuc/add",
     adminDashboard: "/admin/dashboard",
     adminProducts: "/admin/product",
-  
+    sach_kH: "/sach-khoa-hoc",
+    tieu_thuyet: "/tieu-thuyet",
+    thieu_nhi: "/thieu-nhi",
+
+
+
 
     
     adminProductAdd: "/admin/product/add",

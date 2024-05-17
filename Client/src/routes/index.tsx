@@ -25,6 +25,13 @@ import productDetail from "../pages/client/ProductDetail";
 
 import  chuyenmucPage from "../pages/admin/ChuyenMucPage";
 import chuyenmucAdd from "../pages/admin/ChuyenMucAdd";
+import Product_TT from "../compoment/tieu-thuyet";
+import Product_TN from "../compoment/truyen-thieu-nhi";
+import Product_KH from "../compoment/sach-khoa-hoc";
+
+
+
+
 
 
 
@@ -41,6 +48,12 @@ export const publicRoutes = [
     { path: routes.signin, Component: signin },
     { path: routes.signup, Component: signup },
     { path: routes.review, Component:review  },
+    { path: routes.tieu_thuyet, Component:Product_TT  },
+    { path: routes.thieu_nhi, Component:Product_TN  },
+    { path: routes.sach_kH, Component:Product_KH },
+
+
+
 
 ]
 
