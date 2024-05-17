@@ -4,7 +4,7 @@ interface IChapter {
     _id?: string;
     name: string;
     title: string;
-    content: string;
+    content: object;
 
     productId?: IProduct
 }

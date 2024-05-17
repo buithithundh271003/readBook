@@ -6,6 +6,7 @@ interface IProduct {
     author: string;
     description: string;
     content: string;
+    status:number;
 
     images: any[];
     categoryId?: ICategory

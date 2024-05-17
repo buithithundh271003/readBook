@@ -1389,7 +1389,7 @@ Card
 
 .iq-card .iq-card-header,
 .iq-card-transparent .iq-card-header {
-  padding: 20px;
+  padding: 5px 20px;
   margin-bottom: 0;
   -ms-flex-align: center !important;
   align-items: center !important;

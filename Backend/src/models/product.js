@@ -11,6 +11,10 @@ const productSchema = new Schema(
             type: mongoose.Schema.Types.ObjectId,
             ref: "Category",
         },
+        status: {
+            type: Number,
+            default: 0,
+        },
         images: [
             {
                 type: Object,

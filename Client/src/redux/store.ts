@@ -3,6 +3,9 @@ import CategorySlice from "./Reducer/CategorySlice";
 import ProductSlice from "./Reducer/ProductSlice"; 
 import ChapterSlice from "./Reducer/Chapter"; 
 import reviewSlice from "./Reducer/review"; 
+import ChuyenMucslice from "./Reducer/ChuyenMuc";
+import  readSlice from "./Reducer/readLater"
+
 
 
 
@@ -15,6 +18,8 @@ const store = configureStore({
         Product: ProductSlice,
         Chapter:ChapterSlice,
         Review:reviewSlice,
+        ChuyenMuc:ChuyenMucslice,
+        ReadLater:readSlice,
      
      
     },

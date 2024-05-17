@@ -14,7 +14,9 @@ const routes = {
     // Admin 
     admin: "/admin",
     pdf: "/pdf",
+    adminChuyenMuc: "/admin/chuyenmuc",
 
+    adminChuyenMucAdd: "/admin/chuyenmuc/add",
     adminDashboard: "/admin/dashboard",
     adminProducts: "/admin/product",
   
@@ -24,6 +26,8 @@ const routes = {
     adminCategorys: "/admin/category",
     adminCategoryAdd: "/admin/category/add",
     adminCategoryUpdate: "/admin/category/update/:id",
+    adminProductUpdate: "/admin/product/update/:id",
+
     adminChapters:"/admin/chapter",
     adminChapterAdd:"/admin/chapter/add",
     adminChapterUpdate:"/admin/chapter/update/:id",

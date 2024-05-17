@@ -1,31 +1,51 @@
 
-import { useEffect, useState } from "react";
+import { useEffect, useState ,useRef} from "react";
 import Footer from "../../../compoment/footer";
 import Header from "../../../compoment/header";
+// import IReadLater from "../../../interface/readLater";
 import { useAppDispatch, useAppSelector } from "../../../redux/hook";
 import { getAllProduct } from "../../../redux/Reducer/ProductSlice";
+import { createReadLater } from "../../../redux/Reducer/readLater";
+
 import { createReview, getAllReview } from "../../../redux/Reducer/review";
 import { getAllChapter} from "../../../redux/Reducer/Chapter";
 import { Link, useNavigate, useParams } from "react-router-dom";
 
+import {
+    Space,
+    Table,
+    message,
+    Popconfirm,
+    Spin,
+    Image,
+    
+} from 'antd';
+import {
+    EditFilled,
+    DeleteFilled,
+    PlusOutlined,
+    SearchOutlined
+} from '@ant-design/icons';
+import { useForm } from 'react-hook-form';
 
 import { Comment } from '@ant-design/compatible';
 import React from 'react';
+// import { ColumnsType } from 'antd/es/table';
 // import type { FormInstance } from 'antd';
 import { FacebookShareButton, FacebookIcon } from 'react-share';
 
-// import IChapter from "../../../interface/chapter";
+
 
 import { Avatar, Form, Button, List, Input,Affix } from 'antd';
-// import { rangeContainsRange } from "@fullcalendar/core/datelib/date-range";
-// import moment from 'moment';
+
+import { useLocalStorage } from "../../../hook/useLocalStorage";
 
 
 const SubmitButton = ({ form }) => {
     const [submittable, setSubmittable] = React.useState(false);
   
     const values = Form.useWatch("title", form);
-  
+   
     React.useEffect(() => {
       form
         .validateFields({ validateOnly: true })
@@ -50,25 +70,24 @@ const SubmitButton = ({ form }) => {
   };
   
   const productDetail = () => {
-    console.log("Vào trang detail r");
     const dispatch = useAppDispatch();
     const [form] = Form.useForm();
-    console.log(form);
+    const section1Ref = useRef(null);
+
     const navigate = useNavigate();
     const [container, setContainer] = React.useState(null);
     const [user, setUser] = useState();
   
-  const userStore = JSON.parse(localStorage.getItem("user") || "{}");
+    const u = JSON.parse(localStorage.getItem("user") );
+    console.log("u",u);
   
     const values = Form.useWatch("title", form);
-    console.log("jjjj", values);
   
     const products = useAppSelector((state) => state.Product.products);
     const chapter = useAppSelector((state) => state.Chapter.chapters);
-    console.log("chapter", chapter);
     const rv = useAppSelector((state) => state.Review.reviews);
-    console.log("pro000000000",products);
-    console.log(rv);
+  
+
   
     const containerStyle = {
       width: "100%",
@@ -80,7 +99,6 @@ const SubmitButton = ({ form }) => {
       width: "100%",
       height: 300,
     };
-    console.log("trang review");
   
     const categories = useAppSelector((state) => state.Category.categories);
     console.log(categories);
@@ -88,9 +106,9 @@ const SubmitButton = ({ form }) => {
       dispatch(getAllProduct());
       dispatch(getAllReview());
       dispatch(getAllChapter());
-  const userStore = JSON.parse(localStorage.getItem("user") || "{}");
+        const userStore = JSON.parse(localStorage.getItem("user") || "{}");
         if (userStore) {
-        setUser(userStore);
+         setUser(userStore);
       }
     }, []);
     useEffect(() => {
@@ -100,22 +118,62 @@ const SubmitButton = ({ form }) => {
       
       const userStore = JSON.parse(localStorage.getItem("user") || "{}");
   
-      if (userStore) {
-        setUser(userStore);
+        if (userStore) {
+            setUser(userStore);
       }
     }, [dispatch]);
   
+  
     const { id } = useParams();
-    const product = products?.find((product) => product._id === id);  
+    const product = products?.find((product) => product._id === id); 
+     
    
     const cateProduct = products?.filter(
       (newProduct) =>
         newProduct.categoryId?._id === product?.categoryId?._id
     );
+    // console.log(user.length);
+    if(user!==''){
+        console.log("y");
+    }
+    else{
+        console.log("n");
+    }
+
+
+ 
+
+    useEffect(() => {
+        // 1. Initialize viewedProducts as an empty array (recommended)
+        let viewedProducts = localStorage.getItem('viewedProducts') ? JSON.parse(localStorage.getItem('viewedProducts')) : [];
+      
+        // 2. (Optional) Additional safety check (if viewedProducts might be reassigned later)
+        if (!Array.isArray(viewedProducts)) {
+          viewedProducts = [];
+        }
+      
+        // 3. Check if product hasn't been viewed yet and add it
+        if (!viewedProducts.includes(id)) {
+          viewedProducts.push(id);
+          localStorage.setItem('viewedProducts', JSON.stringify(viewedProducts));
+        }
+      }, [id])
+
+
+
+  
     console.log("cateProduct", cateProduct);
     const getChapterProduct = chapter?.filter(
       (chap) => chap.productId?._id === id
     );
+    const date = () => {
+        const date = new Date(product?.createdAt);
+        const day = date.getDate();
+        const month = date.getMonth() + 1;
+        const year = date.getFullYear();
+
+        return `${day}/${month}/${year}`;
+    }
     const r = {
         userId: user ? user._id : undefined,
         // productId: { id: product._id || undefined },
@@ -127,8 +185,69 @@ const SubmitButton = ({ form }) => {
     console.log(getChapterProduct);
     const onFinish = () => {
         void dispatch(createReview(r));
+        message.success("Add to review successfully!");
+
     };
+    const read = {
+        userId: user ? user._id : undefined,
+        productId: id,
+
+        
+    };
+    const addToread = async (r) => {
+        await dispatch(createReadLater(read));
+        message.success("Add to cart successfully!");
+        
+    }
+   
   
+    const columns = [
+        {
+          title: 'Product Name',
+          key: 'name',
+          render: (record) => (
+            
+            <div className="flex items-center">
+                {/* <div>{record}</div> */}
+            <Link to={`/viewBook/${record._id}`} >
+              <a className="w-full overflow-hidden">{record.name}</a>
+
+              </Link>
+            </div>
+          ),
+          sorter: (a, b) => a.name.localeCompare(b.name), // Sắp xếp theo bảng chữ cái
+          sortDirections: ['ascend', 'descend'],
+          showSorterTooltip: false,
+          className: 'w-1/4',
+        },
+      
+        {
+          title: 'title',
+          key: 'title',
+          render: (record) => (
+            
+            <div className="flex items-center">
+         <Link to={`/viewBook/${record._id}`} >
+              <a className="w-full overflow-hidden">{record.title}</a>
+
+              </Link>
+            </div>
+          ),
+          
+        },
+       
+      ];
+      
+      const scrollToSection = (sectionRef) => {
+        sectionRef.current.scrollIntoView({ behavior: 'smooth' });
+      };
+        const data = getChapterProduct.map((i) => ({
+          name: i.name,
+          title:i.title,
+          _id: i._id,
+
+        //   date:i.createdAt
+        }));
     return (
       <>
       
@@ -139,30 +258,15 @@ const SubmitButton = ({ form }) => {
                     <div className="row">
                         <div className="col-sm-12">
                             <div className="iq-card iq-card-block iq-card-stretch iq-card-height">
-                                <div className="iq-card-header d-flex justify-content-between align-items-center">
-                                    <h4 className="card-title mb-0 ">Thông tin</h4>
-                                </div>
+                               
                                 <div className="iq-card-body pb-0">
                                     <div className="description-contens align-items-top row">
-                                        <div className="col-md-6">
+                                        <div className="col-md-3">
                                             <div className="iq-card-transparent iq-card-block iq-card-stretch iq-card-height">
                                                 <div className="iq-card-body p-0">
                                                     <div className="row align-items-center">
-                                                        <div className="col-3">
-                                                            <ul id="description-slider-nav" className="list-inline p-0 m-0  d-flex align-items-center">
-                                                                {product?.images.map((image) => {
-                                                                    return <>
-                                                                        <li>
-                                                                            <Link to="#">
-                                                                                <img src={image} className="img-fluid rounded w-100" alt="" />
-                                                                            </Link>
-                                                                        </li>
-
-                                                                    </>
-                                                                })}
-                                                            </ul>
-                                                        </div>
-                                                        <div className="col-9">
+                                                        
+                                                        <div className="col-10">
                                                             <ul id="description-slider" className="list-inline p-0 m-0  d-flex align-items-center">
                                                                 <ul id="description-slider-nav" className="list-inline p-0 m-0  d-flex align-items-center">
                                                                     {product?.images.map((image) => {
@@ -182,12 +286,11 @@ const SubmitButton = ({ form }) => {
                                                 </div>
                                             </div>
                                         </div>
-                                        <div className="col-md-6">
+                                        <div className="col-md-5">
                                             <div className="iq-card-transparent iq-card-block iq-card-stretch iq-card-height">
                                                 <div className="iq-card-body p-0">
-                                                    <h3 className="mb-3">{product?.name}</h3>
-                                                    <div className="price d-flex align-items-center font-weight-500 mb-2">
-                                                    </div>
+                                                    <h3 className="mb-1" style={{color:"blue",fontWeight:"bold", fontSize:"1.4em"}}>{product?.name}</h3>
+                                                    
                                                     <div className="mb-3 d-block">
                                                         <span className="font-size-20 text-warning">
                                                             <i className="fa fa-star mr-1"></i>
@@ -198,17 +301,31 @@ const SubmitButton = ({ form }) => {
                                                         </span>
                                                     </div>
                                                     <span className="text-dark mb-4 pb-4 iq-border-bottom d-block">{product?.description}</span>
-                                                    <div className="text-primary mb-4">Tác giả: <span className="text-body">{product?.author}</span></div>
+                                                    <div className="text-primary mb-2">Tác giả: <span className="text-body">{product?.author}</span></div>
+                                                    <div className="text-primary mb-2">Ngày phát hành: <span className="text-body">{date()}</span></div>
+                                                    {product?.status===0?<>
+                                                        <div className="text-primary mb-2">Trạng thái cập nhập: <span className="text-body">Hoàn thành</span></div>
+
+                                                    </>
+                                                    :
+                                                    <div className="text-primary mb-2">Tác giả: <span className="text-body">đang cập nhập</span></div>
+
+                                                    }
+
                                             
-                                                    {user ?
+                                                    {u?
                                                         <div className="mb-4 d-flex align-items-center">
 
-                                                            <button className="btn btn-primary view-more mr-2">Đọc ngay</button>
+                                                            <button className="btn btn-primary view-more mr-2" onClick={() => scrollToSection(section1Ref)}>Đọc ngay</button>
+                                                            <button className="btn btn-primary view-more mr-2" onClick={() => addToread(read)}>Đọc sau</button>
+
                                                         </div>
                                                         :
                                                         <div className="mb-4 d-flex align-items-center">
                               
                                                             <button className="btn btn-primary view-more mr-2" onClick={() => navigate(`/signin`)}>Đọc ngay</button>
+                                                            <button className="btn btn-primary view-more mr-2" onClick={() => navigate(`/signin`)}>Đọc sau</button>
+
                                                         </div>
                                                     }
                                                     <div className="mb-3">
@@ -242,43 +359,160 @@ const SubmitButton = ({ form }) => {
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="col-lg-12">
-                            <div className="iq-card iq-card-block iq-card-stretch iq-card-height">
-                                <div className="iq-card-header d-flex justify-content-between align-items-center position-relative">
-                                    <div className="iq-header-title">
-                                        <h4 className="card-title mb-0">Danh sách các chương</h4>
-                                    </div>
-                                   
-                                </div>
-                                <div className="iq-card-body single-similar-contens">
-                                {getChapterProduct?.map(item=>{
-                                                        return <>
-                                                            {user?
-                                                                 <div className="view-book">
-                                                                 <Link to={`/viewBook/${item._id}`} className="btn btn-sm btn-white">{item.name}: {item.title}</Link>
-                                                                 </div>
-                                                                 :
-                                                                 <div className="view-book">
-                                                                 <Link to={`/signin`} className="btn btn-sm btn-white">{item.name}: {item.title}</Link>
-                                                                 </div>
+                                        <div className="col-md-4">
+                                            <div className="iq-card-transparent iq-card-block iq-card-stretch iq-card-height">
+                                                <div className="iq-card-body p-0">
+                                                <div className="iq-card shadow-none m-0">
+                                        <div className="iq-card-body p-0 toggle-cart-info">
+                                            <div className="bg-primary p-3">
+                                                <h5 className="mb-0 text-black">Truyện mới phát hành<small className="badge  badge-light float-right pt-1">{}</small></h5>
+                                            </div>
+                                            {products?.slice(0, 5).map((item, index)=> {
+                                                
+                                                const date = () => {
+                                                    const date = new Date(item?.createdAt);
+                                                    const day = date.getDate();
+                                                    const month = date.getMonth() + 1;
+                                                    const year = date.getFullYear();
+                                            
+                                                    return `${day}/${month}/${year}`;
+                                                }
+                                                return <>
+                                                    <Link to={`/products/${item?._id}`} className="iq-sub-card">
+                                                        <div className="iq-sub-card">
 
-                                                            }
-                                                            
-                                                        </>
-                                                     })}
+                                                            <div className="media align-items-center py-1">
+                                                                <div className="">
+                                                                    <img className="rounded" src={item.images} alt="" />
+                                                                   
+                                                                </div>
+                                                                <div className="media-body ml-3">
+                                                                    <h6 className="mb-0 ">{item?.name}</h6>
+                                                                    <span className='block mb-2'></span>
+                                                                    <div className="text-primary mb-2"><span className="text-body">Ngày phát hành - {date()}</span></div>
+                                                                    
+                                                                    {item?.status===0?<>
+                                                                        <div className="text-primary mb-2">Trạng thái: <span className="text-body">Hoàn thành</span></div>
+
+                                                                            </>
+                                                                            :
+                                                                            <div className="text-primary mb-2">Trạng thái: <span className="text-body">đang cập nhập</span></div>
+
+                                                                     }
+
+                                                                </div>
+                                                                {/* <div className="float-right font-size-24 text-danger" onClick={() => confirm(item._id)}><i className="ri-close-fill"></i></div> */}
+                                                            </div>
+                                                        </div>
+                                                    </Link>
+
+                                                </>
+                                            })}
+                                        
+                                           
+                                        </div>
+                                    </div>
+                                                  
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                    </div>
                                 </div>
                             </div>
                         </div>
+                        <div className="col-sm-12" >
+                            <div className="iq-card iq-card-block iq-card-stretch iq-card-height">
+                               
+                                <div className="iq-card-body pb-0">
+                                    <div className="description-contens align-items-top row">
+                                       
+                                        <div className="col-md-8">
+                                            <div className="iq-card-transparent iq-card-block iq-card-stretch iq-card-height">
+                                                <div className="iq-card-body p-0">
+                                                    <h3 className="mb-1" style={{color:"blue",fontWeight:"bold", fontSize:"1.4em"}} ref={section1Ref}>Danh sách các chương</h3>
+                                                    
+                                                 
+                        <Table columns={columns} dataSource={data} pagination={{ pageSize: 30 }} />
+                                                   
+
+                                            
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="col-md-4">
+                                            <div className="iq-card-transparent iq-card-block iq-card-stretch iq-card-height">
+                                                <div className="iq-card-body p-0">
+                                                <div className="iq-card shadow-none m-0">
+                                        <div className="iq-card-body p-0 toggle-cart-info">
+                                            <div className="bg-primary p-3">
+                                                <h5 className="mb-0 text-black">Truyện mới phát hành<small className="badge  badge-light float-right pt-1">{}</small></h5>
+                                            </div>
+                                            {products?.slice(0, 5).map((item, index)=> {
+                                                
+                                                const date = () => {
+                                                    const date = new Date(item?.createdAt);
+                                                    const day = date.getDate();
+                                                    const month = date.getMonth() + 1;
+                                                    const year = date.getFullYear();
+                                            
+                                                    return `${day}/${month}/${year}`;
+                                                }
+                                                return <>
+                                                    <Link to={`/products/${item?._id}`} className="iq-sub-card">
+                                                        <div className="iq-sub-card">
+
+                                                            <div className="media align-items-center py-1">
+                                                                <div className="">
+                                                                    <img className="rounded" src={item.images} alt="" />
+                                                                   
+                                                                </div>
+                                                                <div className="media-body ml-3">
+                                                                    <h6 className="mb-0 ">{item?.name}</h6>
+                                                                    <span className='block mb-2'></span>
+                                                                    <div className="text-primary mb-2"><span className="text-body">Ngày phát hành - {date()}</span></div>
+                                                                    
+                                                                    {item?.status===0?<>
+                                                                        <div className="text-primary mb-2">Trạng thái: <span className="text-body">Hoàn thành</span></div>
+
+                                                                            </>
+                                                                            :
+                                                                            <div className="text-primary mb-2">Trạng thái: <span className="text-body">đang cập nhập</span></div>
+
+                                                                     }
+
+                                                                </div>
+                                                                {/* <div className="float-right font-size-24 text-danger" onClick={() => confirm(item._id)}><i className="ri-close-fill"></i></div> */}
+                                                            </div>
+                                                        </div>
+                                                    </Link>
+
+                                                </>
+                                            })}
+                                        
+                                           
+                                        </div>
+                                    </div>
+                                                  
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                     
+                        {/* <Table columns={columns} dataSource={data} pagination={{ pageSize: 20 }} /> */}
+
                         <div className="col-lg-12">
                             <div className="iq-card iq-card-block iq-card-stretch iq-card-height">
                                 <div className="iq-card-header d-flex justify-content-between align-items-center position-relative">
                                     <div className="iq-header-title">
                                         <h4 className="card-title mb-0">Đánh giá gàn đây</h4>
                                     </div>
+                                
                                    
                                 </div>
                                 <div className="iq-card-body single-similar-contens">
@@ -308,9 +542,10 @@ const SubmitButton = ({ form }) => {
                         <div style={style}>
                             <Affix target={() => container}>
                             {rv?.map(i=>{
+                                
                             return<>
                                 <Comment
-                                    author={<>{i.userId?.fullname}</>}
+                                    author={<>Bùi Thị Thu</>}
                                     avatar={
                                     <Avatar
                                         src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
@@ -326,6 +561,21 @@ const SubmitButton = ({ form }) => {
                                 />
                             </>
                         })}
+                         <Comment
+                                    author={<>Nguyen Hoa</>}
+                                    avatar={
+                                    <Avatar
+                                        src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
+                                        alt="Han Solo"
+                                    />
+                                    }
+                                    content={
+                                    <p>
+                                       Ý nghĩa
+                                    </p>
+                                    }
+                                  
+                                />
                             </Affix>
                         </div>
                         </div>

@@ -8,6 +8,8 @@ import productAdd from "../pages/admin/ProductAdd";
 import productPage from "../pages/admin/ProductPage";
 import homePage from "../pages/client/Home";
 import Product from "../pages/client/Product";
+import ProductUpdate from "../pages/admin/ProductUpdate";
+
 // import productDetail from "../pages/client/ProductDetail";
 import signin from "../pages/client/Signin/index.";
 import signup from "../pages/client/Signup";
@@ -21,7 +23,8 @@ import viewBook from "../pages/client/viewBook";
 import review from "../pages/client/revie";
 import productDetail from "../pages/client/ProductDetail";
 
-
+import  chuyenmucPage from "../pages/admin/ChuyenMucPage";
+import chuyenmucAdd from "../pages/admin/ChuyenMucAdd";
 
 
 
@@ -29,6 +32,8 @@ import productDetail from "../pages/client/ProductDetail";
 export const publicRoutes = [
     { path: routes.home, Component: homePage },
     {path:routes.products,Component:Product},
+    {path:routes.adminProductUpdate,Component:ProductUpdate},
+
     {path:routes.productDetail,Component:productDetail},
     {path:routes.viewBook,Component:viewBook},
 
@@ -46,7 +51,8 @@ export const privateRoutes = [
     { path: routes.adminDashboard, Component: dashboardPage },
     { path: routes.adminProducts, Component: productPage },
     { path: routes.adminProductAdd, Component: productAdd },
-  
+    {path: routes.adminChuyenMucAdd, Component: chuyenmucAdd},
+    {path: routes.adminChuyenMuc, Component: chuyenmucPage },
     { path: routes.adminCategorys, Component: categoryPage },
     { path: routes.adminCategoryAdd, Component: categoryAdd },
     { path: routes.adminCategoryUpdate, Component: categoryUpdate },

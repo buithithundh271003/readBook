@@ -8,7 +8,17 @@ const { PORT } = process.env;
 export default defineConfig({
     server: {
         port: 3000,
+        fs: {
+            allow: [
+                // Add the directory where your file is located
+                'F:/ttcs/webComics_NodeJs/Store-book-main/Backend/src/middlewares/tmp',
+                // Add the project root to avoid restrictions
+                'F:/ttcs/webComics_NodeJs/Store-book-main/Client'
+            ]
+        }
     },
+    
+
     plugins: [
         ...VitePluginNode({
             adapter: "express",
@@ -16,6 +26,7 @@ export default defineConfig({
             exportName: "viteNodeApp",
             tsCompiler: "esbuild",
             swcOptions: {},
+         
         }),
     ],
     optimizeDeps: {},

@@ -4,7 +4,7 @@ import axios from "axios";
 import { Worker } from '@react-pdf-viewer/core';
 // Import the main Viewer component
 import { Viewer } from '@react-pdf-viewer/core';
-// Import the stylesnpm 
+// Import the styles
 import '@react-pdf-viewer/core/lib/styles/index.css';
 // default layout plugin
 import { defaultLayoutPlugin } from '@react-pdf-viewer/default-layout';
@@ -41,11 +41,12 @@ function App() {
   const handleFile = (e) =>{
     setFile(e.target.files[0])
     let selectedFile = e.target.files[0];
-    // console.log(selectedFile.type);
+    console.log(selectedFile);
     if(selectedFile){
       if(selectedFile&&allowedFiles.includes(selectedFile.type)){
         let reader = new FileReader();
         reader.readAsDataURL(selectedFile);
+        console.log(typeof(selectedFile));
         reader.onloadend=(e)=>{
           setPdfError('');
           setPdfFile(e.target.result);
@@ -67,6 +68,8 @@ function App() {
     formData.append("title", title);
     formData.append("file", file);
     console.log(title, file);
+    console.log(typeof(title), typeof(file));
+
 
     const results = await axios.post(
       "http://localhost:3000/api/files/upload",

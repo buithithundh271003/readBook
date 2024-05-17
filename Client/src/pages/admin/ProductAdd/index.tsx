@@ -6,6 +6,7 @@ import {
     Input,
     InputNumber,
     Select,
+    Col,
     Space,
     message,
     Upload,
@@ -107,6 +108,7 @@ const productAdd = () => {
                     autoComplete="off"
                     className="mx-auto max-w-[500px]"
                 >
+    
                     {/* Input Name */}
                     <Form.Item
                         name="name"
@@ -141,6 +143,21 @@ const productAdd = () => {
                             options={selectOptions}
                         ></Select>
                     </Form.Item>
+ 
+                    <Col className="gutter-row" span={8}>
+                        <Form.Item name="status" label="Status">
+                            <Select
+                                allowClear
+                                defaultValue="Đang xuất bản"
+                                options={[
+                                    { value: 0, label: 'Hoàn thành' },
+                                   
+                                    { value: 1, label: 'Đang xuất bản'},
+                                ]}
+                            ></Select>
+                        </Form.Item>
+
+                    </Col>
 
                     <Space>
                         {/* Input Price */}

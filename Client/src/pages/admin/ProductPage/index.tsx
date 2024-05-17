@@ -25,6 +25,7 @@ interface DataType {
     _id: string,
     name: string,
     images: any[],
+    status: number;
     
     categoryId: string,
 }
@@ -95,14 +96,39 @@ const productPage = () => {
             showSorterTooltip: false,
             className: 'w-1/4',
         },
-     
-      
         {
-            title: 'Description',
-            dataIndex: 'description',
-            key: 'description',
+            title: 'Status',
+            key: 'status',
+            render: (value: any) => {
+                if (value.status === 0) {
+                    return (
+                        <span className='border bg-red-500 rounded-lg text-white px-2 py-1 text-xs'>
+                            Hoàn thành
+                        </span>
+                    )
+                }
+                if (value.status === 1) {
+                    return (
+                        <span className='border bg-gray-200 rounded-lg text-gray-500 px-2 py-1 text-xs'>
+                            Đang xuất ban
+                        </span>
+                    )
+                }
+           
+            },
+            sorter: (a, b) => {
+                const customOrder = [1, 2, 3, 4, 0];
+
+                const orderA = customOrder.indexOf(a.status);
+                const orderB = customOrder.indexOf(b.status);
+
+                return orderA - orderB;
+            },
+            sortDirections: ['ascend', 'descend'],
+            showSorterTooltip: false,
         },
-    
+      
+     
         {
             title: "Category",
             key: "category",
@@ -138,6 +164,7 @@ const productPage = () => {
         name: product.name,
         images: product.images,
         categoryId: product.categoryId,
+        status: product.status,
     }));
     const [isLoading, setIsLoading] = useState(false);
     return (

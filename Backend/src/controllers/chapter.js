@@ -1,17 +1,17 @@
 import { object } from "joi";
 import Chapter from "../models/chapter";
 import Product from "../models/product";
-import { chapterSchema } from "../schemas/chapter"
+// import { chapterSchema } from "../schemas/chapter"
 export const addChapter = async (req, res) => {
     try {
-        console.log(req.body);
-        const { error } = chapterSchema.validate(req.body, { abortEarly: false });
+        const title = req.body.title;
+        const content = req.file;
+        const pro = req.body.productId;
+        const name = req.body.name;
 
-        if (error) {
-            const errors = error.details.map((err) => err.message);
-            return res.status(400).json({ errors });
-        }
-        const chapter = await Chapter.create(req.body);
+
+  
+        const chapter = await Chapter.create({ title: title, productId: pro,name:name,content:content });
         if (!chapter) {
             return res.status(404).json({
                 message: "Couldn't find a product to add."
@@ -37,6 +37,7 @@ export const addChapter = async (req, res) => {
 };
 export const getChapters= async(req,res)=>{
     try{
+        console.log("get chapter 1111");
         const {
             _page = 1,
             _limit = 100,
@@ -109,7 +110,6 @@ export const deleteChapter = async (req, res) => {
                 message: "chapter not found!",
             });
         }
-        console.log("mm");
 
         // Tìm danh mục của sản phẩm cần xóa
         // Xóa id sản phẩm khỏi danh mục đó

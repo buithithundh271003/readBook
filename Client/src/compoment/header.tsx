@@ -4,17 +4,32 @@ import { useAppDispatch, useAppSelector } from "../redux/hook";
 import { getAllCategory } from "../redux/Reducer/CategorySlice";
 import { Link, useNavigate } from "react-router-dom";
 import { getAllProduct } from "../redux/Reducer/ProductSlice";
+import { getAllReadLater } from "../redux/Reducer/readLater";
+
 import { message } from "antd";
+import IProduct from "../interface/product";
+import IReadLater from "../interface/readLater";
+
 
 const Header = () => {
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
     const [input, setInput] = React.useState("");
-    console.log("SetInput",setInput);
-    const categories = useAppSelector((state) => state.Category.categories);
-
     const user = JSON.parse(localStorage.getItem("user")!)
+
+    const categories = useAppSelector((state) => state.Category.categories);
+    const products = useAppSelector((state) => state.Product.products);
+    console.log("SetInput",products);
+    
+    const readsLater = useAppSelector((state) => state.ReadLater.readLaters);
+
+    console.log("SetInputReadLater",readsLater);
+    // const Conproduct = con ? products.filter((newProduct: IProduct) => con.includes(newProduct._id)) : [];
+
+    const getLater=user? readsLater?.filter((chap: IReadLater)=>chap.userId === user._id ):{};
+    console.log(user);
    
+    console.log("SetInput",getLater);
     
 
     const logout = () => {
@@ -29,6 +44,8 @@ const Header = () => {
         dispatch(getAllCategory())
         if (user) {
             dispatch(getAllProduct())
+        dispatch(getAllReadLater())
+
         }
     }, [dispatch]);
 
@@ -37,6 +54,8 @@ const Header = () => {
         dispatch(getAllCategory())
         if (user) {
             dispatch(getAllProduct())
+        dispatch(getAllReadLater())
+
         }
     }, []);
     return <>
@@ -85,7 +104,7 @@ const Header = () => {
                             <a href="index.html" className="header-logo">
                                 <img src="src/src/style/images/logo.png" className="img-fluid rounded-normal" alt="" />
                                 <div className="logo-title">
-                                    <span className="text-primary text-uppercase">img01</span >
+                                    <Link to={`/`} className="text-primary text-uppercase">img01</Link> 
                                 </div>
                             </a>
                         </div>
@@ -95,7 +114,7 @@ const Header = () => {
                     </div>
                     <div className="iq-search-bar">
                         <form action="#" className="searchbox">
-                            <input type="text" className="text search-input" placeholder="Tìm kiếm sản phẩm..." onChange={(e)=>handelOnchange(e.target.value) }/>
+                            <input type="text" className="text search-input" placeholder="Tìm kiếm sản phẩm..."  />
                             <a className="search-link" href="#"><i className="ri-search-line"></i></a>
                         </form>
                     </div>
@@ -113,7 +132,49 @@ const Header = () => {
                                     <a className="search-link" href="#"><i className="ri-search-line"></i></a>
                                 </form>
                             </li>
-        
+                            <li className="nav-item nav-icon dropdown">
+                                <a href="#" className="search-toggle iq-waves-effect text-gray rounded">
+                                    <i className="ri-notification-2-line"></i>
+                                    
+                                    <span className="badge badge-danger count-cart rounded-circle">{ readsLater? readsLater.length : 0}</span>
+                                </a>
+                                <div className="iq-sub-dropdown">
+                                    <div className="iq-card shadow-none m-0">
+                                        <div className="iq-card-body p-0 toggle-cart-info">
+                                            <div className="bg-primary p-3">
+                                                <h5 className="mb-0 text-white">Danh sách đọc sau<small className="badge  badge-light float-right pt-1">{ readsLater? readsLater.length : 0}</small></h5>
+                                            </div>
+                                            
+                                                
+                                            {readsLater?.map(item => {
+                                                const product = products.find((product: IProduct) => product._id === item.productId)
+                                                return <>
+                                                    <Link to={`/products/${product?._id}`} className="iq-sub-card">
+                                                        <div className="iq-sub-card">
+
+                                                            <div className="media align-items-center">
+                                                                <div className="">
+                                                                    {/* <img className="rounded" src={product?.images} alt="" /> */}
+                                                                    {<img className="rounded" src={product?.images[0]}></img>}
+                                                                </div>
+                                                                <div className="media-body ml-3">
+                                                                    <h6 className="mb-0 ">{product?.name}</h6>
+                                                                </div>
+                                                                {/* <div className="float-right font-size-24 text-danger" onClick={() => confirm(item._id)}><i className="ri-close-fill"></i></div> */}
+                                                            </div>
+                                                        </div>
+                                                    </Link>
+
+                                                </>
+                                            })}
+                                            
+
+                                   
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                                
                          
                             {user ?
                                 <li className="line-height pt-3">
@@ -198,6 +259,7 @@ const Header = () => {
                                     </div>
                                 </li>
                             }
+                           
                         </ul>
                     </div>
                 </nav>

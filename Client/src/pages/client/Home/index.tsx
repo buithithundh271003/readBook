@@ -7,49 +7,86 @@ import { getAllProduct } from "../../../redux/Reducer/ProductSlice.ts";
 import img from "../../../style/images/favorite/01.png";
 import img1 from "../../../style/images/favorite/02.png";
 import img2 from "../../../style/images/favorite/03.png";
+import { getAllReadLater } from "../../../redux/Reducer/readLater.ts";
+
 import img3 from "../../../style/images/favorite/04.png";
+import IProduct from "../../../interface/product";
 
-
+import React from 'react';
 
 
 import './index.scss';
 
+
 const homePage = () => {
     const dispatch = useAppDispatch();
-    const products = useAppSelector((state) => state.Product.products);
+    const user = JSON.parse(localStorage.getItem("user")!)
+    const con = JSON.parse(localStorage.getItem("viewedProducts")!)
 
+
+
+    const products = useAppSelector((state) => state.Product.products);
+    
+    const reads = useAppSelector((state) => state.ReadLater.readLaters);
+    console.log("SetInput",reads);
     useEffect(() => {
         // setIsLoading(true);
-        dispatch(getAllProduct())
+        dispatch(getAllProduct());
+        dispatch(getAllReadLater())
+
 
     }, [dispatch]);
 
     useEffect(() => {
         // setIsLoading(true);
 
-        dispatch(getAllProduct())
+        dispatch(getAllProduct());
+        dispatch(getAllReadLater())
+
 
     }, []);
+    
+    console.log("------------a",typeof(con));
+      
+    // const Conproduct = products?.filter((newProduct: IProduct) => con.includes(newProduct._id));
+    // console.log("------------",Conproduct);
+
+  const Conproduct = con ? products.filter((newProduct: IProduct) => con.includes(newProduct._id)) : [];
+  console.log("------------",Conproduct);
+
+    
+    
 
     return <>
         <div className="wrapper">
             <Header />
+            
+            
             <div id="content-page" className="content-page">
                 <div className="container-fluid">
                     <div className="row">
+                   
                         <div className="col-lg-12">
                             <div className="iq-card iq-card-block iq-card-stretch iq-card-height">
-                                <div className="iq-card-header d-flex justify-content-between align-items-center position-relative">
+                                {con?
+                                <>
+                                   <div className="iq-card-header d-flex justify-content-between align-items-center position-relative">
                                     <div className="iq-header-title">
-                                        <h4 className="card-title mb-0">Gợi ý cho bạn</h4>
+                                        <h4 className="card-title mb-0 " style={{color:"blue", fontWeight:"bold",fontSize:"1.2rem"}}>Đọc tiếp |</h4>
                                     </div>
-                                    <div className="iq-card-header-toolbar d-flex align-items-center">
-                                        <Link to={`/products`} className="btn btn-sm btn-primary view-more">Xem Thêm</Link>
-                                    </div>
+                                  
                                 </div>
                                 <div className="iq-card-body">
                                     <div className="row">
-                                        {products.map((product) => {
+                                        {Conproduct?.slice(0,4).map((product,item) => {
+                                              const date = () => {
+                                                const date = new Date(product?.createdAt);
+                                                const day = date.getDate();
+                                                const month = date.getMonth() + 1;
+                                                const year = date.getFullYear();
+                                        
+                                                return `${day}/${month}/${year}`;
+                                            }
                                             return <>
                                                 <div className="col-sm-6 col-md-4 col-lg-3">
                                                     <div className="iq-card iq-card-block iq-card-stretch iq-card-height browse-bookcontent">
@@ -74,6 +111,86 @@ const homePage = () => {
                                                                                 <i className="fa fa-star"></i>
                                                                             </span>
                                                                         </div>
+                                                                        <span className='font-size-13 line-height'>{date()}</span>
+                                                                    
+                                                                    {product?.status===0?<>
+                                                                        <div className="text-primary mb-2"><span className="font-size-13 line-height">Hoàn thành</span></div>
+
+                                                                            </>
+                                                                            :
+                                                                            <div className="text-primary mb-2"><span className="font-size-13 line-height">đang cập nhập</span></div>
+
+                                                                     }
+
+                                                                    </div>
+                                                                
+                                                                </div>
+                                                            </div >
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </>
+                                        })}
+                                    </div>
+                                </div>
+                                <div className="iq-card-header d-flex justify-content-between align-items-center position-relative">
+                                    <div className="iq-header-title">
+                                        <h4 className="card-title mb-0">Gợi ý cho bạn</h4>
+                                    </div>
+                                    <div className="iq-card-header-toolbar d-flex align-items-center">
+                                        <Link to={`/products`} className="btn btn-sm btn-primary view-more">Xem Thêm</Link>
+                                    </div>
+                                </div>
+                                </>
+                                :<></>
+                                }
+                             
+                                <div className="iq-card-body">
+                                    <div className="row">
+                                        {products.map((product) => {
+                                              const date = () => {
+                                                const date = new Date(product?.createdAt);
+                                                const day = date.getDate();
+                                                const month = date.getMonth() + 1;
+                                                const year = date.getFullYear();
+                                        
+                                                return `${day}/${month}/${year}`;
+                                            }
+                                            return <>
+                                                <div className="col-sm-6 col-md-3 col-lg-3">
+                                                    <div className="iq-card iq-card-block iq-card-stretch iq-card-height browse-bookcontent">
+                                                        <div className="iq-card-body p-0">
+                                                            <div className="d-flex align-items-center">
+                                                                <div className="col-6 p-0 position-relative image-overlap-shadow">
+                                                                    <Link to=""><img className="img-fluid rounded w-100" src={product.images} alt="" /></Link >
+                                                                    <div className="view-book">
+                                                                        <Link to={`/products/${product._id}`} className="btn btn-sm btn-white">Đọc Ngay</Link>
+                                                                    </div>
+                                                                </div>
+                                                                <div className="col-6">
+                                                                    <div className="mb-2">
+                                                                        <h6 className="mb-1">{product.name}</h6>
+                                                                        <p className="font-size-13 line-height mb-1">{product.author}</p>
+                                                                        <div className="d-block line-height">
+                                                                            <span className="font-size-11 text-warning">
+                                                                                <i className="fa fa-star"></i>
+                                                                                <i className="fa fa-star"></i>
+                                                                                <i className="fa fa-star"></i>
+                                                                                <i className="fa fa-star"></i>
+                                                                                <i className="fa fa-star"></i>
+                                                                            </span>
+                                                                        </div>
+                                                                        <span className='font-size-13 line-height'>{date()}</span>
+                                                                    
+                                                                    {product?.status===0?<>
+                                                                        <div className="text-primary mb-2"><span className="font-size-13 line-height">Hoàn thành</span></div>
+
+                                                                            </>
+                                                                            :
+                                                                            <div className="text-primary mb-2"><span className="font-size-13 line-height">đang cập nhập</span></div>
+
+                                                                     }
+
                                                                     </div>
                                                                 
                                                                 </div>

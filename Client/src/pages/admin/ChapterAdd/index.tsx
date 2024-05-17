@@ -4,7 +4,7 @@ import {
     Button,
     Form,
     Input,
-    InputNumber,
+    
     Select,
     Upload,
     Space,
@@ -12,17 +12,17 @@ import {
     
     Spin
 } from 'antd';
+import axios from "axios";
+
 import { UploadOutlined } from "@ant-design/icons";
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../../redux/hook';
 import Iproduct from '../../../interface/product';
-// import { getAllCategory } from '../../../redux/Reducer/CategorySlice';
-// import { getAllChapter } from '../../../redux/Reducer/Chapter';
+
 
 import { createChapter } from '../../../redux/Reducer/Chapter';
 const { TextArea } = Input;
 
-const { Dragger } = Upload;
 const SubmitButton = ({ form }: { form: FormInstance }) => {
     const [submittable, setSubmittable] = React.useState(false);
 
@@ -55,6 +55,7 @@ const SubmitButton = ({ form }: { form: FormInstance }) => {
 };
 
 const chapterAdd = () => {
+
     const [form] = Form.useForm();
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
@@ -69,25 +70,39 @@ const chapterAdd = () => {
     // useEffect(() => {
     //     void dispatch(getAllChapter());
     // }, [dispatch]);
+  const [file, setFile] = useState("");
+    
+  const [content, setContent] = useState("");
+  console.log(typeof(content));
     const [isLoading, setIsLoading] = useState(false);
+
+    // const [uploading, setUploading] = useState(false);
     const onFinish = async (values: any) => {
-        console.log("vao day r,", values);
         setIsLoading(true);
        
 
-        const newValues = { ...values};
+        const newValues = { ...values,content};
         console.log("ki",newValues);
+        const results = await axios.post(
+            "http://localhost:3000/api/chapters",
+            newValues,
+            {
+              headers: { "Content-Type": "multipart/form-data" },
+            }
+          );
 
-        void dispatch(createChapter(newValues));
+        // void dispatch(createChapter(newValues));
+        // console.log("new", newValues);
+
         await message.success(`Add chapter successfully!`);
         navigate("/admin/chapter");
     };
-    // const props: UploadProps = {
-    //     listType: "picture",
-    //     name: "image",
-    //     multiple: true,
-    //     action: "http://localhost:3000/api/images/upload",
-    // };
+    const handleFile = (e:any) =>{
+        setContent(e.target.files[0]);
+  
+      }
+    
+  console.log(content);
   
     return <>
         {isLoading ? (
@@ -108,7 +123,7 @@ const chapterAdd = () => {
                     autoComplete="off"
                     className="mx-auto max-w-[500px]"
                 >
-                        {/* Input Category */}
+                       
                         <Form.Item name="productId" label="Product" rules={[{ required: true, message: 'Please input your Product!' }]}>
                         <Select
                             placeholder="Select a category"
@@ -116,7 +131,7 @@ const chapterAdd = () => {
                             options={selectOptions}
                         ></Select>
                     </Form.Item>
-                    {/* Input Name */}
+                 
                     <Form.Item
                         name="name"
                         label="Name"
@@ -129,15 +144,6 @@ const chapterAdd = () => {
                         <Input />
                     </Form.Item>
 
-        
-
-                
-
-                
-
-                   
-
-                    {/* Input Desription */}
                     <Form.Item
                         name="title"
                         label="Title"
@@ -149,12 +155,21 @@ const chapterAdd = () => {
                     >
                         <TextArea rows={4} />
                     </Form.Item>
-                     {/* Input Desription */}
-                     <Form.Item label="Files" name="content" rules={[{ required: true, message: 'Please input your Image!' }]}>
-                     <Upload >
-                        <Button icon={<UploadOutlined />}>Select File</Button>
-                    </Upload>
-                    </Form.Item>
+                    
+                     {/* <Form.Item label="Files" name="content" rules={[{ required: true, message: 'Please input your Image!' }]}>
+                  
+                    
+                    </Form.Item> */}
+                    <Input
+                        name='content'
+                        type="file"
+                        className="form-control"
+                        accept="application/pdf"
+                        required
+                        onChange={handleFile}
+                        
+                        />
+
                     <Form.Item>
                         <Space>
                             <SubmitButton form={form} />
@@ -169,3 +184,4 @@ const chapterAdd = () => {
     </>
 }
 export default chapterAdd;
+

@@ -31,7 +31,12 @@ export const createChapter = createAsyncThunk(
         console.log("chapter",chapter);
         const { data } = await axios.post<{ chapter: Ichapter }>(
             "http://localhost:3000/api/chapters",
-            chapter
+            
+            chapter ,
+            // {
+            //     headers: { "Content-Type": "multipart/form-data" },
+            //   }
+          
         );
 
         return data;
