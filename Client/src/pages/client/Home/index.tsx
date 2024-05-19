@@ -22,13 +22,15 @@ const homePage = () => {
     const dispatch = useAppDispatch();
     const user = JSON.parse(localStorage.getItem("user")!)
     const con = JSON.parse(localStorage.getItem("viewedProducts")!)
+    const viewer = JSON.parse(localStorage.getItem("myList")!)
+
 
 
 
     const products = useAppSelector((state) => state.Product.products);
     
     const reads = useAppSelector((state) => state.ReadLater.readLaters);
-    console.log("SetInput",reads);
+    console.log("SetInput",viewer);
     useEffect(() => {
         // setIsLoading(true);
         dispatch(getAllProduct());
@@ -54,7 +56,11 @@ const homePage = () => {
   const Conproduct = con ? products.filter((newProduct: IProduct) => con.includes(newProduct._id)) : [];
   console.log("------------",Conproduct);
 
-    
+//   viewer.sort((a:any, b: any) =>  b.viewCount - a.viewCount );
+  viewer ? [...viewer].sort((a, b) => b.viewCount - a.viewCount) : [];
+
+  console.log("viewerr",viewer);
+
     
 
     return <>
@@ -204,6 +210,202 @@ const homePage = () => {
                                 </div>
                             </div>
                         </div>
+                        <div className="col-sm-12">
+                            <div className="iq-card iq-card-block iq-card-stretch iq-card-height">
+                                <div className="iq-card-header d-flex justify-content-between align-items-center position-relative">
+                                        <div className="iq-header-title">
+                                            <h4 className="card-title mb-0" style={{color:"blue", fontSize:"1.5rem", fontWeight:"bolder"}}>| Bảng xếp hạng</h4>
+                                        </div>
+                                       
+                                </div>
+                               
+                                <div className="iq-card-body pb-0">
+                                    <div className="description-contens align-items-top row">
+                                       
+                                        <div className="col-md-4">
+                                            <div className="iq-card-transparent iq-card-block iq-card-stretch iq-card-height">
+                                                <div className="iq-card-body p-0">
+                                                <div className="iq-sub-dropdown">
+                                                <div className="iq-card shadow-none m-0">
+                                                    <div className="iq-card-body p-0 toggle-cart-info">
+                                                        <div className="bg-primary p-3">
+                                                            <h5 className="mb-0 text-black" style={{fontSize:"1.3rem",fontWeight:"bold"}}>Top 1 - 3<small className="badge  badge-light float-right pt-1"></small></h5>
+                                                        </div>
+                                                      
+                                                        
+                                                            
+                                                        {viewer?.slice(0,3).map((item,index)=>{
+                                                            console.log(viewer.localStorageKey);
+
+                                                            const pr = products?.find(
+
+                                                                (c) => c._id === item.localStorageKey
+                                                            );
+                                                            console.log("dong 515", pr);
+                                                            return <>
+                                                                <Link to={`/products/${pr?._id}`} className="iq-sub-card">
+                                                                    <div className="iq-sub-card">
+
+                                                                        <div className="media align-items-center">
+                                                                            <div className="py-2">
+                                                                                {<img className="rounded" src={pr?.images[0]} style={{width:"100px"}}></img>}
+                                                                            </div>
+                                                                            <div className="media-body ml-3">
+                                                                                <h6 className="mb-0 ">{pr?.name}</h6>
+                                                                                <div className="text-primary mb-2">Tác giả: <span className="text-body">{pr?.author}</span></div>
+
+
+                                                                                {pr?.status===0?<>
+                                                                                    <div className="text-primary mb-2">Trạng thái: <span className="text-body">Hoàn thành</span></div>
+
+                                                                                        </>
+                                                                                        :
+                                                                                        <div className="text-primary mb-2">Trạng thái: <span className="text-body">đang cập nhập</span></div>
+
+                                                                                }
+                                                                                        <div className="text-primary mb-2">Lượt xem: <span className="text-body">{item.viewCount}</span></div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </Link>
+
+                                                            </>
+                                                        })}
+                                                        
+
+                                            
+                                                    </div>
+                                                </div>
+                                            </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="col-md-4">
+                                            <div className="iq-card-transparent iq-card-block iq-card-stretch iq-card-height">
+                                                <div className="iq-card-body p-0">
+                                                <div className="iq-sub-dropdown">
+                                                <div className="iq-card shadow-none m-0">
+                                                    <div className="iq-card-body p-0 toggle-cart-info">
+                                                        <div className="bg-primary p-3">
+                                                            <h5 className="mb-0 text-black" style={{fontSize:"1.3rem",fontWeight:"bold"}}>Top 4 - 6<small className="badge  badge-light float-right pt-1"></small></h5>
+                                                        </div>
+                                                        {/* 
+                                                        */}
+                                                        
+                                                            
+                                                        {viewer?.slice(3,6).map((item,index)=>{
+                                                            console.log(viewer.localStorageKey);
+
+                                                            const pr = products?.find(
+
+                                                                (c) => c._id === item.localStorageKey
+                                                            );
+                                                            console.log("dong 515", pr);
+                                                            return <>
+                                                                <Link to={`/products/${pr?._id}`} className="iq-sub-card">
+                                                                    <div className="iq-sub-card">
+
+                                                                        <div className="media align-items-center">
+                                                                            <div className="py-2">
+                                                                                {<img className="rounded" src={pr?.images[0]} style={{width:"100px"}}></img>}
+                                                                            </div>
+                                                                            <div className="media-body ml-3">
+                                                                                <h6 className="mb-0 ">{pr?.name}</h6>
+                                                                                <div className="text-primary mb-2">Tác giả: <span className="text-body">{pr?.author}</span></div>
+
+
+                                                                                {pr?.status===0?<>
+                                                                                    <div className="text-primary mb-2">Trạng thái: <span className="text-body">Hoàn thành</span></div>
+
+                                                                                        </>
+                                                                                        :
+                                                                                        <div className="text-primary mb-2">Trạng thái: <span className="text-body">đang cập nhập</span></div>
+
+                                                                                }
+                                                                                        <div className="text-primary mb-2">Lượt xem: <span className="text-body">{item.viewCount}</span></div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </Link>
+
+                                                            </>
+                                                        })}
+                                                        
+
+                                            
+                                                    </div>
+                                                </div>
+                                            </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="col-md-4">
+                                            <div className="iq-card-transparent iq-card-block iq-card-stretch iq-card-height">
+                                                <div className="iq-card-body p-0">
+                                                <div className="iq-sub-dropdown">
+                                                <div className="iq-card shadow-none m-0">
+                                                    <div className="iq-card-body p-0 toggle-cart-info">
+                                                        <div className="bg-primary p-3">
+                                                            <h5 className="mb-0 text-black" style={{fontSize:"1.3rem",fontWeight:"bold"}}>Top 1 - 9<small className="badge  badge-light float-right pt-1"></small></h5>
+                                                        </div>
+                                                        {/* 
+                                                        */}
+                                                        
+                                                            
+                                                        {viewer?.slice(6,9).map((item,index)=>{
+                                                            console.log(viewer.localStorageKey);
+
+                                                            const pr = products?.find(
+
+                                                                (c) => c._id === item.localStorageKey
+                                                            );
+                                                            console.log("dong 515", pr);
+                                                            return <>
+                                                                <Link to={`/products/${pr?._id}`} className="iq-sub-card">
+                                                                    <div className="iq-sub-card">
+
+                                                                        <div className="media align-items-center">
+                                                                            <div className="py-2">
+                                                                                {<img className="rounded" src={pr?.images[0]} style={{width:"100px"}}></img>}
+                                                                            </div>
+                                                                            <div className="media-body ml-3">
+                                                                                <h6 className="mb-2 ">{pr?.name}</h6>
+                                                                                <div className="text-primary mb-2">Tác giả: <span className="text-body">{pr?.author}</span></div>
+
+
+                                                                                {pr?.status===0?<>
+                                                                                    <div className="text-primary mb-2">Trạng thái: <span className="text-body">Hoàn thành</span></div>
+
+                                                                                        </>
+                                                                                        :
+                                                                                        <div className="text-primary mb-2">Trạng thái: <span className="text-body">đang cập nhập</span></div>
+
+                                                                                }
+                                                                                        <div className="text-primary mb-2">Lượt xem: <span className="text-body">{item.viewCount}</span></div>
+
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </Link>
+
+                                                            </>
+                                                        })}
+                                                        
+
+                                            
+                                                    </div>
+                                                </div>
+                                            </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                       
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                         <div className="col-lg-12">
                             <div className="iq-card iq-card-block iq-card-stretch iq-card-height">
                                 <div className="iq-card-header d-flex justify-content-between align-items-center position-relative">
@@ -334,6 +536,7 @@ const homePage = () => {
                                 </div>
                             </div>
                         </div>
+                        
                        
                    
                         <div className="col-lg-12">
@@ -476,11 +679,13 @@ const homePage = () => {
                                                         </div>
                                                     </div>
                                                 </li>
+                                          
                         
                                     </ul>
                                 </div>
                             </div>
                         </div>
+                        
                         <div className="col-lg-12">
                             <div className="iq-card iq-card-block iq-card-stretch iq-card-height">
                                 <div className="iq-card-body favorites-contens">
@@ -491,7 +696,8 @@ const homePage = () => {
                         
                                     <div className="section-about-content">
                                         <div className="content-left">
-                                            <iframe width="100%" height="350" src="https://www.youtube.com/embed/XTJFy86XNuE?si=BmNv3M9jfUaQtpMZ" title="Journaling Prompts to Change Your Life" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                                        <iframe width="100%" height="390" src="https://www.youtube.com/embed/7SzEoYbV0vw?si=TCjg4B1-kvuXvCkF" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                                            {/* <iframe width="100%" height="350" src="https://www.youtube.com/embed/XTJFy86XNuE?si=BmNv3M9jfUaQtpMZ" title="Journaling Prompts to Change Your Life" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe> */}
                                         </div>
                                         <div className="content-right">
                                         Truyện cổ tích ca ngợi và bênh vực cho đạo đức con người thông qua nhân vật lí tưởng/kiểu mẫu. Nhân vật lí tưởng thường bao giờ cũng là người tài năng và có nhân cách vượt trội song là những con người nhỏ bé, số phận bất hạnh. Nhân vật lí tưởng mang đạo đức, những giá trị đạo đức được thừa nhận nên họ nhận được sự giúp đỡ từ các thế lực thần kì. Nhân vật lí tưởng thường được các lực lượng thần kì thử thách về đạo đức và tài năng.Chính sự thử thách này là thước đo đánh giá nhân vật đồng thời tạo nên tình huống truyện. Ví dụ như: Cây khế; Sự tích con khỉ,…

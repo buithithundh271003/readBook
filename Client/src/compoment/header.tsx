@@ -9,6 +9,7 @@ import img from "../style/images/bg-03.jpg"
 import { message } from "antd";
 import IProduct from "../interface/product";
 import IReadLater from "../interface/readLater";
+import { Affix, Button } from 'antd';
 
 
 const Header = () => {
@@ -20,7 +21,8 @@ const Header = () => {
     const categories = useAppSelector((state) => state.Category.categories);
     const products = useAppSelector((state) => state.Product.products);
     console.log("SetInput",products);
-    
+    const [container, setContainer] = React.useState<HTMLDivElement | null>(null);
+
     const readsLater = useAppSelector((state) => state.ReadLater.readLaters);
 
     console.log("SetInputReadLater",readsLater);
@@ -37,6 +39,8 @@ const Header = () => {
         message.success("Đăng xuất thành công");
         navigate('/')
     }
+
+
 
     useEffect(() => {
 
@@ -58,8 +62,19 @@ const Header = () => {
 
         }
     }, []);
+    const containerStyle: React.CSSProperties = {
+        width: '100%',
+        height: '300px',
+        overflow: 'auto',
+        border: '1px solid #40a9ff',
+      };
+      
+      const style: React.CSSProperties = {
+        width: '100%',
+        height: '',
+      };
     return <>
-        <div className="iq-sidebar">
+        {/* <div className="iq-sidebar">
             <div className="iq-sidebar-logo d-flex justify-content-between">
                 <Link to={`/`} className="header-logo">
                     <img src="src/src/style/images/logo.png" className="img-fluid rounded-normal" alt="" />
@@ -93,7 +108,7 @@ const Header = () => {
                     </ul>
                 </nav>
             </div>
-        </div>
+        </div> */}
         <div className="bg-gray-800 iq-top-navbar">
             <div className="iq-navbar-custom">
                 <nav className="navbar navbar-expand-lg navbar-light p-0">
@@ -155,6 +170,8 @@ const Header = () => {
                                             <div className="bg-primary p-3">
                                                 <h5 className="mb-0 text-white">Danh sách đọc sau<small className="badge  badge-light float-right pt-1">{ getLater? getLater.length : 0}</small></h5>
                                             </div>
+                                            {/* 
+                                             */}
                                             
                                                 
                                             {getLater?.map(item => {
@@ -165,13 +182,11 @@ const Header = () => {
 
                                                             <div className="media align-items-center">
                                                                 <div className="">
-                                                                    {/* <img className="rounded" src={product?.images} alt="" /> */}
                                                                     {<img className="rounded" src={product?.images[0]}></img>}
                                                                 </div>
                                                                 <div className="media-body ml-3">
                                                                     <h6 className="mb-0 ">{product?.name}</h6>
                                                                 </div>
-                                                                {/* <div className="float-right font-size-24 text-danger" onClick={() => confirm(item._id)}><i className="ri-close-fill"></i></div> */}
                                                             </div>
                                                         </div>
                                                     </Link>

@@ -33,8 +33,9 @@ import React from 'react';
 // import { ColumnsType } from 'antd/es/table';
 // import type { FormInstance } from 'antd';
 import { FacebookShareButton, FacebookIcon } from 'react-share';
+// import IProduct from "../../../interface/product";
 
-
+import Cookies from 'js-cookie';
 
 import { Avatar, Form, Button, List, Input,Affix } from 'antd';
 
@@ -73,6 +74,7 @@ const SubmitButton = ({ form }) => {
     const dispatch = useAppDispatch();
     const [form] = Form.useForm();
     const section1Ref = useRef(null);
+    const { id } = useParams();
 
     const navigate = useNavigate();
     const [container, setContainer] = React.useState(null);
@@ -86,6 +88,33 @@ const SubmitButton = ({ form }) => {
     const products = useAppSelector((state) => state.Product.products);
     const chapter = useAppSelector((state) => state.Chapter.chapters);
     const rv = useAppSelector((state) => state.Review.reviews);
+    const vwer = JSON.parse(localStorage.getItem("myList"));
+    console.log("hhhhhhhhhhhhh",vwer);
+    
+        
+      
+   
+            let v = 0; 
+
+        if (vwer && Array.isArray(vwer)) {
+        vwer.map((item, index) => {
+            if (item.localStorageKey === id) {
+            v = item.viewCount;
+            console.log("vvv", v);
+            }
+        });
+        }
+
+        let vi = v / 2;
+        console.log("vv", vi);
+
+
+    // const Viewproduct = vwer ? products.filter((new : IProduct) => vwer.includes(new._id)) : [];
+
+
+    
+
+
   
 
   
@@ -124,7 +153,6 @@ const SubmitButton = ({ form }) => {
     }, [dispatch]);
   
   
-    const { id } = useParams();
     const product = products?.find((product) => product._id === id); 
      
    
@@ -248,6 +276,33 @@ const SubmitButton = ({ form }) => {
 
         //   date:i.createdAt
         }));
+    
+        const localStorageKey = `${id}`;
+
+
+    const storedList = JSON.parse(localStorage.getItem('myList')) || [];
+
+    const initialProduct = storedList.find(item => item.localStorageKey === localStorageKey);
+    const initialViews = initialProduct ? initialProduct.viewCount : 0;
+
+    const [viewCount, setViewCount] = useState(initialViews);
+
+    useEffect(() => {
+        setViewCount(prevCount => prevCount + 1);
+    }, []);
+
+    useEffect(() => {
+        if (viewCount > initialViews) {
+        const updatedList = storedList.filter(item => item.localStorageKey !== localStorageKey);
+        updatedList.push({ localStorageKey, viewCount });
+        localStorage.setItem('myList', JSON.stringify(updatedList));
+        }
+    }, [viewCount, localStorageKey, storedList, initialViews]);
+
+            
+
+       
+      
     return (
       <>
       
@@ -303,6 +358,9 @@ const SubmitButton = ({ form }) => {
                                                     <span className="text-dark mb-4 pb-4 iq-border-bottom d-block">{product?.description}</span>
                                                     <div className="text-primary mb-2">Tác giả: <span className="text-body">{product?.author}</span></div>
                                                     <div className="text-primary mb-2">Ngày phát hành: <span className="text-body">{date()}</span></div>
+                                                    <div className="text-primary mb-2">Số lượt xem: <span className="text-body">{vi}</span></div>
+
+                                                    
                                                     {product?.status===0?<>
                                                         <div className="text-primary mb-2">Trạng thái cập nhập: <span className="text-body">Hoàn thành</span></div>
 
@@ -448,7 +506,7 @@ const SubmitButton = ({ form }) => {
                                             <div className="bg-primary p-3">
                                                 <h5 className="mb-0 text-black" style={{fontWeight:"bold"}}>Truyện mới phát hành<small className="badge  badge-light float-right pt-1">{}</small></h5>
                                             </div>
-                                            {products?.slice(0, 5).map((item, index)=> {
+                                            {products?.slice(6, 10).map((item, index)=> {
                                                 
                                                 const date = () => {
                                                     const date = new Date(item?.createdAt);
@@ -469,7 +527,7 @@ const SubmitButton = ({ form }) => {
                                                                 </div>
                                                                 <div className="media-body ml-3">
                                                                     <h6 className="mb-0 ">{item?.name}</h6>
-                                                                    <span className='block mb-2'></span>
+                                                                    <span className='block mb-2'>{}</span>
                                                                     <div className="text-primary mb-2"><span className="text-body">Ngày phát hành - {date()}</span></div>
                                                                     
                                                                     {item?.status===0?<>

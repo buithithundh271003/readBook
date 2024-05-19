@@ -1093,7 +1093,7 @@ body.sidebar-main .iq-sidebar .iq-menu li a[aria-expanded="false"].collapsed {
   top: 0;
   left: auto;
   right: 0;
-  width: calc(100% - 300px);
+  width: 100% ;
   display: inline-block;
   z-index: 99;
   /* background: var(--iq-body-bg);
@@ -1252,6 +1252,7 @@ body.sidebar-main .iq-top-navbar {
 .toggle-cart-info img {
   width: 50px;
 }
+
 
 .nav-item span.dots {
   height: 6px;
@@ -1731,7 +1732,6 @@ div#lottie-fullscreen svg path {
 -----------------------------------------------------------------------*/
 .content-page {
   overflow: hidden;
-  margin-left: 300px;
   padding: 125px 15px 0;
   min-height: 100vh;
   -webkit-transition: all 0.3s ease-out 0s;
