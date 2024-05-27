@@ -20,18 +20,14 @@ const Header = () => {
 
     const categories = useAppSelector((state) => state.Category.categories);
     const products = useAppSelector((state) => state.Product.products);
-    console.log("SetInput",products);
     const [container, setContainer] = React.useState<HTMLDivElement | null>(null);
 
     const readsLater = useAppSelector((state) => state.ReadLater.readLaters);
 
-    console.log("SetInputReadLater",readsLater);
     // const Conproduct = con ? products.filter((newProduct: IProduct) => con.includes(newProduct._id)) : [];
 
     const getLater=user? readsLater?.filter((chap: IReadLater)=>chap.userId === user._id ):[];
-    console.log("user",user);
    
-    console.log("SetInput",getLater);
     
 
     const logout = () => {
@@ -227,14 +223,14 @@ const Header = () => {
                                                         </div>
                                                     </div>
                                                 </a>
-                                                <Link to={`/myorder`} className="iq-sub-card iq-bg-primary-hover">
+                                                <Link to={`/history`} className="iq-sub-card iq-bg-primary-hover">
                                                     <div className="media align-items-center">
                                                         <div className="rounded iq-card-icon iq-bg-primary">
                                                             <i className="ri-account-box-line"></i>
                                                         </div>
-                                                        {/* <div className="media-body ml-3">
-                                                            <h6 className="mb-0 ">Đơn hàng của tôi</h6>
-                                                        </div> */}
+                                                        <div className="media-body ml-3">
+                                                            <h6 className="mb-0 ">Lịch sử</h6>
+                                                        </div>
                                                     </div>
                                                 </Link>
                                                 <div className="d-inline-block w-100 text-center p-3">

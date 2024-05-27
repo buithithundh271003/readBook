@@ -17,7 +17,6 @@ const initialState: initialState = {
 export const getAllProduct = createAsyncThunk(
     "products/getProducts",
     async (query?: string) => {
-        console.log("Thu bui",query);
         const {
             data: { products }
         } = await axios.get<{ products: IProduct[] }>(

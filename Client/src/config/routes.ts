@@ -10,6 +10,8 @@ const routes = {
     signup: "/signup",
     viewBook:"/viewBook/:id",
     review:"/review",
+    history:"/history",
+
 
     // Admin 
     admin: "/admin",

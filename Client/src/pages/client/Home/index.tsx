@@ -5,14 +5,12 @@ import { useAppDispatch, useAppSelector } from "../../../redux/hook.ts";
 import { useEffect } from "react";
 import { getAllProduct } from "../../../redux/Reducer/ProductSlice.ts";
 import img from "../../../style/images/favorite/01.png";
-import img1 from "../../../style/images/favorite/02.png";
-import img2 from "../../../style/images/favorite/03.png";
+
 import { getAllReadLater } from "../../../redux/Reducer/readLater.ts";
 
-import img3 from "../../../style/images/favorite/04.png";
 import IProduct from "../../../interface/product";
 
-import React from 'react';
+// import React from 'react';
 
 
 import './index.scss';
@@ -40,7 +38,6 @@ const homePage = () => {
     }, [dispatch]);
 
     useEffect(() => {
-        // setIsLoading(true);
 
         dispatch(getAllProduct());
         dispatch(getAllReadLater())
@@ -48,16 +45,41 @@ const homePage = () => {
 
     }, []);
     
-    console.log("------------a",typeof(con));
-      
-    // const Conproduct = products?.filter((newProduct: IProduct) => con.includes(newProduct._id));
-    // console.log("------------",Conproduct);
+
+    const conpro= con.reverse();
+  
 
   const Conproduct = con ? products.filter((newProduct: IProduct) => con.includes(newProduct._id)) : [];
+  const Conproduct1 = conpro ? conpro.filter((newProduct:any) => products.filter(i=>i._id.includes(newProduct))) : [];
+  console.log("mm",Conproduct1);
+  const st= new Set(Conproduct1);
+  console.log("new Set", st);
+  console.log("new Tiep");
+//  const ts={};
+const ts: IProduct[] = []
+ st.forEach((i)=>{
+  const Conproduct = con ? products.find((newProduct: IProduct) => newProduct._id==i) : [];
+  if (Conproduct) {
+    ts.push(Conproduct);
+  }
+  console.log("hhhh",ts);
+
+ });
+  const DocTiep = st ? products.filter((newProduc: IProduct) => st.has(newProduc._id)) : [];
+  console.log("new Tiep", DocTiep);
+
+
+
+
+  
+  const conpros= Conproduct.slice().reverse();
   console.log("------------",Conproduct);
 
+    console.log("------------conpros",conpros);
+
+
 //   viewer.sort((a:any, b: any) =>  b.viewCount - a.viewCount );
-  viewer ? [...viewer].sort((a, b) => b.viewCount - a.viewCount) : [];
+  viewer ? viewer.sort((a, b) => b.viewCount - a.viewCount) : [];
 
   console.log("viewerr",viewer);
 
@@ -84,7 +106,8 @@ const homePage = () => {
                                 </div>
                                 <div className="iq-card-body">
                                     <div className="row">
-                                        {Conproduct?.slice(0,4).map((product,item) => {
+
+                                        {ts?.slice(0,4).map((product,item) => {
                                               const date = () => {
                                                 const date = new Date(product?.createdAt);
                                                 const day = date.getDate();
@@ -410,7 +433,7 @@ const homePage = () => {
                             <div className="iq-card iq-card-block iq-card-stretch iq-card-height">
                                 <div className="iq-card-header d-flex justify-content-between align-items-center position-relative">
                                     <div className="iq-header-title">
-                                        <h2 className="card-title mb-0" style={{color:"green", fontSize:"1.5rem", fontWeight:"bolder"}}>Sách mới phát hành</h2>
+                                        <h2 className="card-title mb-0" style={{color:"green", fontSize:"1.5rem", fontWeight:"bolder"}}>| Sách mới phát hành</h2>
                                     </div>
                                     <div className="iq-card-header-toolbar d-flex align-items-center">
                                         <Link to="category.html" className="btn btn-sm btn-primary view-more">Xem thêm</Link>
@@ -418,8 +441,35 @@ const homePage = () => {
                                 </div>
                                 <div className="iq-card-body favorites-contens">
                                 <ul id="favorites-slider" className="list-inline p-0 mb-0 row">
+                                    {products?.slice(3,6).map((item,index)=>{
+                                        return <>
+                                              <li className="col-md-4 ">
+                                        <div className="d-flex align-items-center">
+                                            <div className="col-5 p-0 position-relative">
+                                            <Link to ={`/products/${item._id}`}>
 
-                                    <li className="col-md-4 ">
+                                                    <img src={item.images} className="img-fluid rounded w-100" alt="" />
+                                            </Link>
+                                            </div>
+                                            <div className="col-7">
+                                                <h5 className="mb-2"></h5>
+                                                <p className="mb-2">Tác giả :{item.author} </p>
+                                        
+                                            
+                                                
+                                        <div className="iq-progress-bar-linear d-inline-block w-100">
+                                            <div className="iq-progress-bar iq-bg-danger">
+                                                <span className="bg-danger" data-percent="45"></span>
+                                            </div>
+                                        </div>
+                                                <Link to={`/products/${item._id}`} className="text-danger">Đọc ngay<i className="ri-arrow-right-s-line"></i></Link>
+                                            </div>
+                                        </div>
+                                    </li>
+                                        </>
+                                    })}
+
+                                    {/* <li className="col-md-4 ">
                                         <div className="d-flex align-items-center">
                                             <div className="col-5 p-0 position-relative">
                                                 <Link to="#">
@@ -440,96 +490,8 @@ const homePage = () => {
                                                 <Link to={`/products/`} className="text-danger">Đọc ngay<i className="ri-arrow-right-s-line"></i></Link>
                                             </div>
                                         </div>
-                                    </li>
-                                    <li className="col-md-4 ">
-                                        <div className="d-flex align-items-center">
-                                            <div className="col-5 p-0 position-relative">
-                                                <Link to="#">
-                                                    <img src={img1} className="img-fluid rounded w-100" alt="" />
-                                                </Link>
-                                            </div>
-                                            <div className="col-7">
-                                                <h5 className="mb-2"></h5>
-                                                <p className="mb-2">Tác giả : </p>
-                                        
-                                            
-                                                
-                                        <div className="iq-progress-bar-linear d-inline-block w-100">
-                                            <div className="iq-progress-bar iq-bg-danger">
-                                                <span className="bg-danger" data-percent="45"></span>
-                                            </div>
-                                        </div>
-                                                <Link to={`/products/`} className="text-danger">Đọc ngay<i className="ri-arrow-right-s-line"></i></Link>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li className="col-md-4 ">
-                                        <div className="d-flex align-items-center">
-                                            <div className="col-5 p-0 position-relative">
-                                                <Link to="#">
-                                                    <img src={img2} className="img-fluid rounded w-100" alt="" />
-                                                </Link>
-                                            </div>
-                                            <div className="col-7">
-                                                <h5 className="mb-2"></h5>
-                                                <p className="mb-2">Tác giả : </p>
-                                        
-                                            
-                                                
-                                        <div className="iq-progress-bar-linear d-inline-block w-100">
-                                            <div className="iq-progress-bar iq-bg-danger">
-                                                <span className="bg-danger" data-percent="45"></span>
-                                            </div>
-                                        </div>
-                                                <Link to={`/products/`} className="text-danger">Đọc ngay<i className="ri-arrow-right-s-line"></i></Link>
-                                            </div>
-                                        </div>
-                                    </li>
-
-                                    <li className="col-md-4 ">
-                                        <div className="d-flex align-items-center">
-                                            <div className="col-5 p-0 position-relative">
-                                                <Link to="#">
-                                                    <img src={img3} className="img-fluid rounded w-100" alt="" />
-                                                </Link>
-                                            </div>
-                                            <div className="col-7">
-                                                <h5 className="mb-2"></h5>
-                                                <p className="mb-2">Tác giả : </p>
-                                        
-                                            
-                                                
-                                        <div className="iq-progress-bar-linear d-inline-block w-100">
-                                            <div className="iq-progress-bar iq-bg-danger">
-                                                <span className="bg-danger" data-percent="45"></span>
-                                            </div>
-                                        </div>
-                                                <Link to={`/products/`} className="text-danger">Đọc ngay<i className="ri-arrow-right-s-line"></i></Link>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li className="col-md-4 ">
-                                        <div className="d-flex align-items-center">
-                                            <div className="col-5 p-0 position-relative">
-                                                <Link to="#">
-                                                    <img src={img3} className="img-fluid rounded w-100" alt="" />
-                                                </Link>
-                                            </div>
-                                            <div className="col-7">
-                                                <h5 className="mb-2"></h5>
-                                                <p className="mb-2">Tác giả : </p>
-                                        
-                                            
-                                                
-                                        <div className="iq-progress-bar-linear d-inline-block w-100">
-                                            <div className="iq-progress-bar iq-bg-danger">
-                                                <span className="bg-danger" data-percent="45"></span>
-                                            </div>
-                                        </div>
-                                                <Link to={`/products/`} className="text-danger">Đọc ngay<i className="ri-arrow-right-s-line"></i></Link>
-                                            </div>
-                                        </div>
-                                    </li>
+                                    </li> */}
+                                   
 
                                     </ul>
                                    
@@ -543,7 +505,7 @@ const homePage = () => {
                             <div className="iq-card iq-card-block iq-card-stretch iq-card-height">
                                 <div className="iq-card-header d-flex justify-content-between align-items-center position-relative">
                                     <div className="iq-header-title">
-                                        <h2 className="card-title mb-0" style={{color:"green", fontSize:"1.5rem", fontWeight:"bolder"}}>Truyện mới phát hành</h2>
+                                        <h2 className="card-title mb-0" style={{color:"green", fontSize:"1.5rem", fontWeight:"bolder"}}>| Truyện mới phát hành</h2>
                                     </div>
                                     <div className="slider-truyenmoi">
                                     <nav aria-label="Page navigation example">
@@ -568,117 +530,32 @@ const homePage = () => {
                                 <div className="iq-card-body favorites-contens">
                                     <ul id="favorites-slider" className="list-inline p-0 mb-0 row">
 
-                                                <li className="col-md-4 ">
-                                                    <div className="d-flex align-items-center">
-                                                        <div className="col-5 p-0 position-relative">
-                                                            <Link to="#">
-                                                                <img src={img} className="img-fluid rounded w-100" alt="" />
-                                                            </Link>
-                                                        </div>
-                                                        <div className="col-7">
-                                                            <h5 className="mb-2"></h5>
-                                                            <p className="mb-2">Tác giả : </p>
-                                                    
-                                                        
-                                                             
-                                                    <div className="iq-progress-bar-linear d-inline-block w-100">
-                                                        <div className="iq-progress-bar iq-bg-danger">
-                                                            <span className="bg-danger" data-percent="45"></span>
-                                                        </div>
-                                                    </div>
-                                                            <Link to={`/`} className="text-danger">Đọc ngay<i className="ri-arrow-right-s-line"></i></Link>
-                                                        </div>
-                                                    </div>
-                                                </li>
-                                                <li className="col-md-4 ">
-                                                    <div className="d-flex align-items-center">
-                                                        <div className="col-5 p-0 position-relative">
-                                                            <Link to="#">
-                                                                <img src={img1} className="img-fluid rounded w-100" alt="" />
-                                                            </Link>
-                                                        </div>
-                                                        <div className="col-7">
-                                                            <h5 className="mb-2"></h5>
-                                                            <p className="mb-2">Tác giả : </p>
-                                                    
-                                                        
-                                                             
-                                                    <div className="iq-progress-bar-linear d-inline-block w-100">
-                                                        <div className="iq-progress-bar iq-bg-danger">
-                                                            <span className="bg-danger" data-percent="45"></span>
-                                                        </div>
-                                                    </div>
-                                                            <Link to={`/products/`} className="text-danger">Đọc ngay<i className="ri-arrow-right-s-line"></i></Link>
-                                                        </div>
-                                                    </div>
-                                                </li>
-                                                <li className="col-md-4 ">
-                                                    <div className="d-flex align-items-center">
-                                                        <div className="col-5 p-0 position-relative">
-                                                            <Link to="#">
-                                                                <img src={img2} className="img-fluid rounded w-100" alt="" />
-                                                            </Link>
-                                                        </div>
-                                                        <div className="col-7">
-                                                            <h5 className="mb-2"></h5>
-                                                            <p className="mb-2">Tác giả : </p>
-                                                    
-                                                        
-                                                             
-                                                    <div className="iq-progress-bar-linear d-inline-block w-100">
-                                                        <div className="iq-progress-bar iq-bg-danger">
-                                                            <span className="bg-danger" data-percent="45"></span>
-                                                        </div>
-                                                    </div>
-                                                            <Link to={`/products/`} className="text-danger">Đọc ngay<i className="ri-arrow-right-s-line"></i></Link>
-                                                        </div>
-                                                    </div>
-                                                </li>
+                                    {products?.slice(5,8).map((item,index)=>{
+                                        return <>
+                                              <li className="col-md-4 ">
+                                        <div className="d-flex align-items-center">
+                                            <div className="col-5 p-0 position-relative">
+                                                <Link to ={`/products/${item._id}`}>
+                                                    <img src={item.images} className="img-fluid rounded w-100" alt="" />
+                                                </Link>
+                                            </div>
+                                            <div className="col-7">
+                                                <h5 className="mb-2"></h5>
+                                                <p className="mb-2">Tác giả :{item.author} </p>
+                                        
+                                            
                                                 
-                                                <li className="col-md-4 ">
-                                                    <div className="d-flex align-items-center">
-                                                        <div className="col-5 p-0 position-relative">
-                                                            <Link to="#">
-                                                                <img src={img3} className="img-fluid rounded w-100" alt="" />
-                                                            </Link>
-                                                        </div>
-                                                        <div className="col-7">
-                                                            <h5 className="mb-2"></h5>
-                                                            <p className="mb-2">Tác giả : </p>
-                                                    
-                                                        
-                                                             
-                                                    <div className="iq-progress-bar-linear d-inline-block w-100">
-                                                        <div className="iq-progress-bar iq-bg-danger">
-                                                            <span className="bg-danger" data-percent="45"></span>
-                                                        </div>
-                                                    </div>
-                                                            <Link to={`/products/`} className="text-danger">Đọc ngay<i className="ri-arrow-right-s-line"></i></Link>
-                                                        </div>
-                                                    </div>
-                                                </li>
-                                                <li className="col-md-4 ">
-                                                    <div className="d-flex align-items-center">
-                                                        <div className="col-5 p-0 position-relative">
-                                                            <Link to="#">
-                                                                <img src={img3} className="img-fluid rounded w-100" alt="" />
-                                                            </Link>
-                                                        </div>
-                                                        <div className="col-7">
-                                                            <h5 className="mb-2"></h5>
-                                                            <p className="mb-2">Tác giả : </p>
-                                                    
-                                                        
-                                                             
-                                                    <div className="iq-progress-bar-linear d-inline-block w-100">
-                                                        <div className="iq-progress-bar iq-bg-danger">
-                                                            <span className="bg-danger" data-percent="45"></span>
-                                                        </div>
-                                                    </div>
-                                                            <Link to={`/products/`} className="text-danger">Đọc ngay<i className="ri-arrow-right-s-line"></i></Link>
-                                                        </div>
-                                                    </div>
-                                                </li>
+                                        <div className="iq-progress-bar-linear d-inline-block w-100">
+                                            <div className="iq-progress-bar iq-bg-danger">
+                                                <span className="bg-danger" data-percent="45"></span>
+                                            </div>
+                                        </div>
+                                                <Link to={`/products/${item._id}`} className="text-danger">Đọc ngay<i className="ri-arrow-right-s-line"></i></Link>
+                                            </div>
+                                        </div>
+                                    </li>
+                                        </>
+                                    })}
                                           
                         
                                     </ul>

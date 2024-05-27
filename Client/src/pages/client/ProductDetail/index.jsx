@@ -2,23 +2,18 @@
 import { useEffect, useState ,useRef} from "react";
 import Footer from "../../../compoment/footer";
 import Header from "../../../compoment/header";
-// import IReadLater from "../../../interface/readLater";
 import { useAppDispatch, useAppSelector } from "../../../redux/hook";
 import { getAllProduct } from "../../../redux/Reducer/ProductSlice";
 import { createReadLater } from "../../../redux/Reducer/readLater";
+import { useMemo } from 'react';
 
 import { createReview, getAllReview } from "../../../redux/Reducer/review";
 import { getAllChapter} from "../../../redux/Reducer/Chapter";
 import { Link, useNavigate, useParams } from "react-router-dom";
 
 import {
-    Space,
     Table,
     message,
-    Popconfirm,
-    Spin,
-    Image,
-    
 } from 'antd';
 import {
     EditFilled,
@@ -81,40 +76,30 @@ const SubmitButton = ({ form }) => {
     const [user, setUser] = useState();
   
     const u = JSON.parse(localStorage.getItem("user") );
-    console.log("u",u);
+    
   
     const values = Form.useWatch("title", form);
   
     const products = useAppSelector((state) => state.Product.products);
     const chapter = useAppSelector((state) => state.Chapter.chapters);
     const rv = useAppSelector((state) => state.Review.reviews);
+    const reviewr= rv.filter((re)=>re.productId==id);
+    // const [checked, setChecked] = useState();
+
     const vwer = JSON.parse(localStorage.getItem("myList"));
-    console.log("hhhhhhhhhhhhh",vwer);
-    
-        
-      
-   
+
             let v = 0; 
 
         if (vwer && Array.isArray(vwer)) {
         vwer.map((item, index) => {
             if (item.localStorageKey === id) {
             v = item.viewCount;
-            console.log("vvv", v);
+            
             }
         });
         }
 
         let vi = v / 2;
-        console.log("vv", vi);
-
-
-    // const Viewproduct = vwer ? products.filter((new : IProduct) => vwer.includes(new._id)) : [];
-
-
-    
-
-
   
 
   
@@ -130,7 +115,6 @@ const SubmitButton = ({ form }) => {
     };
   
     const categories = useAppSelector((state) => state.Category.categories);
-    console.log(categories);
     useEffect(() => {
       dispatch(getAllProduct());
       dispatch(getAllReview());
@@ -160,37 +144,37 @@ const SubmitButton = ({ form }) => {
       (newProduct) =>
         newProduct.categoryId?._id === product?.categoryId?._id
     );
-    // console.log(user.length);
-    if(user!==''){
-        console.log("y");
-    }
-    else{
-        console.log("n");
-    }
 
 
- 
 
-    useEffect(() => {
-        // 1. Initialize viewedProducts as an empty array (recommended)
+
+    // useEffect(() => {
         let viewedProducts = localStorage.getItem('viewedProducts') ? JSON.parse(localStorage.getItem('viewedProducts')) : [];
       
-        // 2. (Optional) Additional safety check (if viewedProducts might be reassigned later)
         if (!Array.isArray(viewedProducts)) {
           viewedProducts = [];
         }
       
-        // 3. Check if product hasn't been viewed yet and add it
         if (!viewedProducts.includes(id)) {
           viewedProducts.push(id);
           localStorage.setItem('viewedProducts', JSON.stringify(viewedProducts));
         }
-      }, [id])
+        else{
+            let a= viewedProducts.indexOf(id);
+            if (a !== -1) {
+                viewedProducts.splice(a, 1); // Xóa phần tử tại chỉ số index
+            }
+          viewedProducts.push(id);
 
-
-
+          localStorage.setItem('viewedProducts', JSON.stringify(viewedProducts));
+        }
   
-    console.log("cateProduct", cateProduct);
+        // }
+    //   }, [id])
+
+
+
+    
     const getChapterProduct = chapter?.filter(
       (chap) => chap.productId?._id === id
     );
@@ -210,7 +194,6 @@ const SubmitButton = ({ form }) => {
      
         title: values,
       };
-    console.log(getChapterProduct);
     const onFinish = () => {
         void dispatch(createReview(r));
         message.success("Add to review successfully!");
@@ -224,7 +207,7 @@ const SubmitButton = ({ form }) => {
     };
     const addToread = async (r) => {
         await dispatch(createReadLater(read));
-        message.success("Add to cart successfully!");
+        message.success("Add to readLater successfully!");
         
     }
    
@@ -387,7 +370,10 @@ const SubmitButton = ({ form }) => {
                                                         </div>
                                                     }
                                                     <div className="mb-3">
-                                                        <Link to="#" className="text-body text-center"><span className="avatar-30 rounded-circle bg-primary d-inline-block mr-2"><i className="ri-heart-fill"></i></span><span>Thêm vào danh sách yêu thích</span></Link>
+                                                        <Link to="#" className="text-body text-center"><span className="avatar-30 rounded-circle bg-primary d-inline-block mr-2">
+                                                            <i className="ri-heart-fill"></i>
+                                                        
+                                                        </span><span>Thêm vào danh sách yêu thích</span></Link>
                                                     </div>
                                                     <div className="iq-social d-flex align-items-center">
                                                         <h5 className="mr-2">Chia sẻ:</h5>
@@ -599,7 +585,22 @@ const SubmitButton = ({ form }) => {
                          <div style={containerStyle} >
                         <div style={style}>
                             <Affix target={() => container}>
-                            {rv?.map(i=>{
+                            <Comment
+                                    author={<>Nguyen Hoa</>}
+                                    avatar={
+                                    <Avatar
+                                        src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
+                                        alt="Han Solo"
+                                    />
+                                    }
+                                    content={
+                                    <p>
+                                       Ý nghĩa
+                                    </p>
+                                    }
+                                  
+                                />
+                            {reviewr?.map(i=>{
                                 
                             return<>
                                 <Comment
@@ -619,21 +620,7 @@ const SubmitButton = ({ form }) => {
                                 />
                             </>
                         })}
-                         <Comment
-                                    author={<>Nguyen Hoa</>}
-                                    avatar={
-                                    <Avatar
-                                        src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
-                                        alt="Han Solo"
-                                    />
-                                    }
-                                    content={
-                                    <p>
-                                       Ý nghĩa
-                                    </p>
-                                    }
-                                  
-                                />
+                      
                             </Affix>
                         </div>
                         </div>

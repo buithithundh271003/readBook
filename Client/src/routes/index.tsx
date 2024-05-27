@@ -17,6 +17,8 @@ import categoryPage from "../pages/admin/CategoryPage";
 
 import chapterPage from"../pages/admin/ChapterPage";
 import chapterAdd from"../pages/admin/ChapterAdd";
+import history from"../pages/client/history";
+
 import chapterUpdate from "../pages/admin/ChapterUpdate";
 
 import viewBook from "../pages/client/viewBook";
@@ -39,6 +41,8 @@ import Product_KH from "../compoment/sach-khoa-hoc";
 export const publicRoutes = [
     { path: routes.home, Component: homePage },
     {path:routes.products,Component:Product},
+    {path:routes.history,Component:history},
+
     {path:routes.adminProductUpdate,Component:ProductUpdate},
 
     {path:routes.productDetail,Component:productDetail},
