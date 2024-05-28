@@ -490,7 +490,7 @@ const SubmitButton = ({ form }) => {
                                                 <div className="iq-card shadow-none m-0">
                                         <div className="iq-card-body p-0 toggle-cart-info">
                                             <div className="bg-primary p-3">
-                                                <h5 className="mb-0 text-black" style={{fontWeight:"bold"}}>Truyện mới phát hành<small className="badge  badge-light float-right pt-1">{}</small></h5>
+                                                <h5 className="mb-0 text-black" style={{fontWeight:"bold"}}>Sách <small className="badge  badge-light float-right pt-1">{}</small></h5>
                                             </div>
                                             {products?.slice(6, 10).map((item, index)=> {
                                                 

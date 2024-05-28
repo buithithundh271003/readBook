@@ -67,7 +67,7 @@ const signin = () => {
                     className="mb-0 space-y-4 rounded-lg p-4 shadow-lg sm:p-6 lg:p-8 bg-white my-6"
                     scrollToFirstError
                 >
-                    <p className="text-center text-gray-500 text-lg font-medium">Please sign in in to continue</p>
+                    <p className="text-center text-gray-500 text-lg font-medium">Hãy đăng nhập để tiếp tục</p>
                     <Form.Item
                         name="email"
                         rules={[
@@ -116,15 +116,15 @@ const signin = () => {
                         <Button type="primary" htmlType="submit"
                             className="w-full h-[47px] bg-primary  text-white"
                         >
-                            Sign in
+                            Đăng nhập
                         </Button>
                     </Form.Item>
                     <p className="text-center text-sm text-gray-500">
-                        Don't have an account?
+                        Bạn đã có tài khoản chưa ?
                         <Link className="underline text-primary font-semibold ml-1"
                             to={`/signup`}
                         >
-                            Sign up
+                            Đăng kí ngay
                         </Link>
                     </p>
                 </Form>

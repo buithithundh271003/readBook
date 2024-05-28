@@ -27,7 +27,9 @@ const History = () => {
     // const [user, setUser] = useState(null)
 
     const user = JSON.parse(localStorage.getItem("user")!);
-    const h = JSON.parse(localStorage.getItem("viewingHistory")!);
+    // const h = JSON.parse(localStorage.getItem("viewingHistory")!);
+    const viewingHistory = localStorage.getItem("viewingHistory");
+const h = viewingHistory ? JSON.parse(viewingHistory) : [];
 
 
     const products = useAppSelector((state) => state.Product.products);

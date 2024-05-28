@@ -54,7 +54,7 @@ const signup = () => {
                     className="mb-0 space-y-4 rounded-lg p-4 shadow-lg sm:p-6 lg:p-8 bg-white"
                     scrollToFirstError
                 >
-                    <p className="text-center text-gray-500 text-lg font-medium">Please sign Up in to continue</p>
+                    <p className="text-center text-gray-500 text-lg font-medium">Hãy đăng ký để tiếp tục.</p>
 
                     <Form.Item
                         name="fullname"
@@ -164,15 +164,15 @@ const signup = () => {
                         <Button type="primary" htmlType="submit"
                             className="w-full h-[47px] bg-primary  text-white"
                         >
-                            Sign up
+                            Đăng ký
                         </Button>
                     </Form.Item>
                     <p className="text-center text-sm text-gray-500">
-                        Already have an account?
+                        Bạn đã có tài khoản chưa ?
                         <Link className="underline text-primary font-semibold ml-1"
                             to={`/signin`}
                         >
-                            Sign in
+                            Đăng nhập
                         </Link>
                     </p>
                 </Form>
